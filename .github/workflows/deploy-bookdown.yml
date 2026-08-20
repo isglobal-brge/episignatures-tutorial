@@ -1,0 +1,56 @@
+name: Deploy bookdown site
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "Episignature_Tutorial/_book/**"
+      - ".github/workflows/deploy-bookdown.yml"
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check bookdown folder
+        run: |
+          echo "Repository contents:"
+          ls -la
+          echo "Bookdown folder:"
+          ls -la Episignature_Tutorial/_book
+          test -f Episignature_Tutorial/_book/index.html
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload bookdown output
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: Episignature_Tutorial/_book
+          include-hidden-files: true
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
