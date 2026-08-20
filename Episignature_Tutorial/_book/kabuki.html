@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 6 Kabuki Workflow | Episignatures Detection: A Practical Tutorial</title>
+<meta name="author" content="Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal">
+<meta name="generator" content="bookdown 0.47 with bs4_book()">
+<meta property="og:title" content="Chapter 6 Kabuki Workflow | Episignatures Detection: A Practical Tutorial">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 6 Kabuki Workflow | Episignatures Detection: A Practical Tutorial">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script defer src="assets/theme-toggle.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/book-style.css">
+<meta name="description" content="The Kabuki workflow is the existing-signature validation and cross-platform example used in the manuscript. Unlike the Williams chapter, it does not discover a new CpG panel with limma. Instead,...">
+<meta property="og:description" content="The Kabuki workflow is the existing-signature validation and cross-platform example used in the manuscript. Unlike the Williams chapter, it does not discover a new CpG panel with limma. Instead,...">
+<meta name="twitter:description" content="The Kabuki workflow is the existing-signature validation and cross-platform example used in the manuscript. Unlike the Williams chapter, it does not discover a new CpG panel with limma. Instead,...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="From methylation arrays to CpG panels, classifiers, and external validation">Episignatures Detection: A Practical Tutorial</a>:
+        <small class="text-muted">From methylation arrays to CpG panels, classifiers, and external validation</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="primer.html"><span class="header-section-number">1</span> Primer for New Readers</a></li>
+<li><a class="" href="repo-map.html"><span class="header-section-number">2</span> Repository Map</a></li>
+<li><a class="" href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></li>
+<li><a class="" href="preprocessing-qc.html"><span class="header-section-number">4</span> Preprocessing and Quality Control</a></li>
+<li><a class="" href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></li>
+<li><a class="active" href="kabuki.html"><span class="header-section-number">6</span> Kabuki Workflow</a></li>
+<li><a class="" href="wrapper-functions.html"><span class="header-section-number">7</span> Wrapper functions</a></li>
+<li><a class="" href="references.html">Reference list</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="kabuki" class="section level1" number="6">
+<h1>
+<span class="header-section-number">6</span> Kabuki Workflow<a class="anchor" aria-label="anchor" href="#kabuki"><i class="fas fa-link"></i></a>
+</h1>
+<p>The Kabuki workflow is the existing-signature validation and cross-platform example used in the manuscript. Unlike the Williams chapter, it does not discover a new CpG panel with limma. Instead, it starts from an established Kabuki methylation signature and tests whether the same disease-associated signal remains detectable across independent array cohorts and long-read methylation data <span class="citation">(<a href="references.html#ref-arefeshghi2017kabuki">Aref-Eshghi et al. 2017</a>, <a href="references.html#ref-arefeshghi2020episignatures">2020</a>)</span>.</p>
+<p>The CpG list used by the manuscript contains 150 published sites. One site (<code>cg22948959</code>) is not available in all datasets, so the cross-dataset analysis uses the shared set available across the compared data. This is why CpG availability must be checked before a trained model is applied.</p>
+<p>The core scripts are:</p>
+<ul>
+<li><code>scripts/Kabuki/GSE97362/Kabuki_GSE97362_analysis.R</code></li>
+<li><code>scripts/Kabuki/GSE116300/Kabuki_GSE116300_analysis.R</code></li>
+<li><code>scripts/Kabuki/GSE218186/Kabuki_GSE218186_analysis.R</code></li>
+<li><code>scripts/Kabuki/PMID41225292/LR_analysis.R</code></li>
+<li><code>scripts/Kabuki/Kabuki_analysis.R</code></li>
+</ul>
+<p>A central lesson is that <strong>successful classification is not the same as technical equivalence</strong>. An array-trained classifier can preserve a strong Kabuki disease signal even when the numerical methylation values from arrays, ONT, and PacBio have different distributions. PCA, clustering, and the later deviation analysis are therefore used to examine platform effects separately from disease classification <span class="citation">(<a href="references.html#ref-hildonen2026longread">Hildonen et al. 2026</a>)</span>.</p>
+<div id="kabuki-data-sources" class="section level2" number="6.1">
+<h2>
+<span class="header-section-number">6.1</span> Kabuki data sources<a class="anchor" aria-label="anchor" href="#kabuki-data-sources"><i class="fas fa-link"></i></a>
+</h2>
+<div class="inline-table"><table class="table table-sm">
+<colgroup>
+<col width="24%">
+<col width="54%">
+<col width="21%">
+</colgroup>
+<thead><tr class="header">
+<th>Source</th>
+<th>Role in workflow</th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>GSE97362</code></td>
+<td>array training cohort and within-cohort testing</td>
+<td>Kabuki/CHARGE methylation study with confirmed KMT2D training labels <span class="citation">(<a href="references.html#ref-butcher2017chargekabuki">Butcher et al. 2017</a>; <a href="references.html#ref-geoGSE97362">National Center for Biotechnology Information 2026e</a>)</span>
+</td>
+</tr>
+<tr class="even">
+<td><code>GSE116300</code></td>
+<td>independent array cohort</td>
+<td>Kabuki cohort from Sobreira et al.; quantile normalization is used in this script <span class="citation">(<a href="references.html#ref-sobreira2017kabuki">Sobreira et al. 2017</a>; <a href="references.html#ref-geoGSE116300">National Center for Biotechnology Information 2026a</a>)</span>
+</td>
+</tr>
+<tr class="odd">
+<td><code>GSE218186</code></td>
+<td>independent array cohort</td>
+<td>reported sex is unavailable in the metadata used here, so predicted sex is stored <span class="citation">(<a href="references.html#ref-geoGSE218186">National Center for Biotechnology Information 2026c</a>)</span>
+</td>
+</tr>
+<tr class="even">
+<td><code>PMID41225292</code></td>
+<td>ONT, PacBio, and matched array methylation data</td>
+<td>methylation matrix from Hildonen et al., converted to a <code>GenomicRatioSet</code> <span class="citation">(<a href="references.html#ref-hildonen2026longread">Hildonen et al. 2026</a>)</span>
+</td>
+</tr>
+</tbody>
+</table></div>
+<p>The fixed Kabuki CpG list used by the tutorial is stored at:</p>
+<pre class="text"><code>scripts/Kabuki/PMID41225292/episignature_PMID41225292.xlsx</code></pre>
+</div>
+<div id="prepare-the-gse97362-training-cohort" class="section level2" number="6.2">
+<h2>
+<span class="header-section-number">6.2</span> Prepare the <code>GSE97362</code> training cohort<a class="anchor" aria-label="anchor" href="#prepare-the-gse97362-training-cohort"><i class="fas fa-link"></i></a>
+</h2>
+<p>The <code>GSE97362</code> script first harmonizes the phenotype metadata from the original Kabuki/CHARGE study <span class="citation">(<a href="references.html#ref-butcher2017chargekabuki">Butcher et al. 2017</a>)</span>.</p>
+<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_ID</span> <span class="op">&lt;-</span> <span class="st">"GSE97362"</span></span>
+<span><span class="va">path_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span>, <span class="va">geo_ID</span><span class="op">)</span></span>
+<span><span class="va">path_idat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"IDATs"</span><span class="op">)</span></span>
+<span><span class="va">path_figures</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Figures"</span><span class="op">)</span></span>
+<span><span class="fu">ensure_project_dirs</span><span class="op">(</span><span class="va">path_save</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">gse</span> <span class="op">&lt;-</span> <span class="fu">GEOquery</span><span class="fu">::</span><span class="fu"><a href="http://seandavi.github.io/GEOquery/reference/getGEO.html">getGEO</a></span><span class="op">(</span>GEO <span class="op">=</span> <span class="va">geo_ID</span>, destdir <span class="op">=</span> <span class="va">path_idat</span><span class="op">)</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">pheno</span> <span class="op">&lt;-</span> <span class="fu">Biobase</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/Biobase/man/phenoData.html">pData</a></span><span class="op">(</span><span class="va">gse</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Age <span class="op">=</span> <span class="va">`age (years):ch1`</span>,</span>
+<span>    Sex <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">`gender:ch1`</span> <span class="op">==</span> <span class="st">"male"</span> <span class="op">~</span> <span class="st">"Male"</span>,</span>
+<span>      <span class="va">`gender:ch1`</span> <span class="op">==</span> <span class="st">"female"</span> <span class="op">~</span> <span class="st">"Female"</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    Diagnosis <span class="op">=</span> <span class="va">`disease state:ch1`</span>,</span>
+<span>    SampleType <span class="op">=</span> <span class="va">`sample type:ch1`</span>,</span>
+<span>    Case_Cont <span class="op">=</span> <span class="cn">NA_character_</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">geo_accession</span>, <span class="va">Sex</span>, <span class="va">Case_Cont</span>, <span class="va">Age</span>, <span class="va">Diagnosis</span>, <span class="va">SampleType</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span><span class="va">pheno</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pheno_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Then it preprocesses IDATs:</p>
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">read_idat_minfi</span><span class="op">(</span></span>
+<span>  path_idat <span class="op">=</span> <span class="va">path_idat</span>,</span>
+<span>  pheno <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pheno_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  path_save <span class="op">=</span> <span class="va">path_save</span>,</span>
+<span>  estimate_cell_counts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="va">geo_ID</span>,</span>
+<span>  process_meth <span class="op">=</span> <span class="st">"funnorm"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"GRset_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="subset-to-published-kabuki-cpgs" class="section level2" number="6.3">
+<h2>
+<span class="header-section-number">6.3</span> Subset to published Kabuki CpGs<a class="anchor" aria-label="anchor" href="#subset-to-published-kabuki-cpgs"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">episignature_cpgs</span> <span class="op">&lt;-</span> <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/read.xlsx.html">read.xlsx</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span>, <span class="st">"PMID41225292"</span>, <span class="st">"episignature_PMID41225292.xlsx"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_epis</span> <span class="op">&lt;-</span> <span class="va">GRset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="va">episignature_cpgs</span><span class="op">$</span><span class="va">id</span>, <span class="op">]</span></span></code></pre></div>
+<p>The harmonized <code>colData</code> keeps the detailed publication labels in <code>Diagnosis</code> and <code>SampleType</code>, while also creating the binary <code>Case_Cont</code> field needed by the classifier. The detailed labels remain important because not every sample in the dataset is part of the training set.</p>
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Case_Cont <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>        <span class="va">Diagnosis</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Control"</span>,</span>
+<span>        <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Case"</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Case"</span>, <span class="st">"Control"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Diagnosis</span>, <span class="va">Dataset</span>, <span class="va">SampleType</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset_epis</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"GRset_epis_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="train-the-kabuki-svm" class="section level2" number="6.4">
+<h2>
+<span class="header-section-number">6.4</span> Train the Kabuki SVM<a class="anchor" aria-label="anchor" href="#train-the-kabuki-svm"><i class="fas fa-link"></i></a>
+</h2>
+<p>The SVM is trained only on the molecularly confirmed KMT2D loss-of-function discovery subset and its designated controls. Other Kabuki-related, CHARGE/CHD7, and variant samples are kept outside this training subset so they can be evaluated afterward.</p>
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset_train</span> <span class="op">&lt;-</span> <span class="va">GRset_epis</span><span class="op">[</span></span>
+<span>  ,</span>
+<span>  <span class="va">GRset_epis</span><span class="op">$</span><span class="va">SampleType</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Control for KMT2D LOF discovery cohort"</span>,</span>
+<span>    <span class="st">"KMT2D LOF discovery cohort"</span>,</span>
+<span>    <span class="st">"Control for validation cohort"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">GRset_train</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    <span class="va">GRset_train</span><span class="op">$</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Control for KMT2D LOF discovery cohort"</span> <span class="op">~</span> <span class="st">"Control"</span>,</span>
+<span>    <span class="va">GRset_train</span><span class="op">$</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"KMT2D LOF discovery cohort"</span> <span class="op">~</span> <span class="st">"Case"</span>,</span>
+<span>    <span class="va">GRset_train</span><span class="op">$</span><span class="va">SampleType</span> <span class="op">==</span> <span class="st">"Control for validation cohort"</span> <span class="op">~</span> <span class="st">"Control"</span>,</span>
+<span>    <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Case"</span>, <span class="st">"Control"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">svm_mod</span> <span class="op">&lt;-</span> <span class="fu">svm_training_f</span><span class="op">(</span>GRset_sbst <span class="op">=</span> <span class="va">GRset_train</span>, beta_M <span class="op">=</span> <span class="st">"Beta"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">svm_mod</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"svm_model_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The model returns a <code>Case</code> probability score. Higher values mean that the sample is more similar to the Kabuki class learned from the training data; lower values are more control-like. As in the Williams example, this is a model-derived score rather than a universal clinical cutoff.</p>
+</div>
+<div id="score-all-gse97362-samples" class="section level2" number="6.5">
+<h2>
+<span class="header-section-number">6.5</span> Score all <code>GSE97362</code> samples<a class="anchor" aria-label="anchor" href="#score-all-gse97362-samples"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb52"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">svm_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"svm_model_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">predictions_df</span> <span class="op">&lt;-</span> <span class="fu">predict_model_on_grset</span><span class="op">(</span><span class="va">svm_mod</span>, <span class="va">GRset_epis</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    DiscVal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>      <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>        <span class="va">SampleType</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Control for KMT2D LOF discovery cohort"</span>, <span class="st">"Control for validation cohort"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"Train Control"</span>,</span>
+<span>        <span class="va">SampleType</span> <span class="op">==</span> <span class="st">"KMT2D LOF discovery cohort"</span> <span class="op">~</span> <span class="st">"Train Case"</span>,</span>
+<span>        <span class="cn">TRUE</span> <span class="op">~</span> <span class="va">Diagnosis</span></span>
+<span>      <span class="op">)</span>,</span>
+<span>      levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Train Control"</span>, <span class="st">"Train Case"</span>, <span class="st">"Control"</span>, <span class="st">"KMT2D variant"</span>, <span class="st">"KDM6A variant"</span>, <span class="st">"CHARGE"</span>, <span class="st">"CHD7 variant"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span></span>
+<span>  <span class="va">predictions_df</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"SVM_predictions_"</span>, <span class="va">geo_ID</span>, <span class="st">".xlsx"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  rowNames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>CHARGE/CHD7 samples provide a useful cross-disease specificity check because CHARGE and Kabuki can show overlapping developmental phenotypes but have distinct methylation signatures <span class="citation">(<a href="references.html#ref-butcher2017chargekabuki">Butcher et al. 2017</a>)</span>. A classifier that only separates Kabuki from healthy controls is a weaker test than one that is also challenged with a related disorder.</p>
+</div>
+<div id="prepare-gse116300" class="section level2" number="6.6">
+<h2>
+<span class="header-section-number">6.6</span> Prepare <code>GSE116300</code><a class="anchor" aria-label="anchor" href="#prepare-gse116300"><i class="fas fa-link"></i></a>
+</h2>
+<p><code>GSE116300</code>, an independent Kabuki cohort, is prepared with the same general object structure but uses quantile normalization in this script <span class="citation">(<a href="references.html#ref-sobreira2017kabuki">Sobreira et al. 2017</a>)</span>:</p>
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_ID</span> <span class="op">&lt;-</span> <span class="st">"GSE116300"</span></span>
+<span><span class="va">path_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span>, <span class="va">geo_ID</span><span class="op">)</span></span>
+<span><span class="va">path_idat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"IDATs"</span><span class="op">)</span></span>
+<span><span class="fu">ensure_project_dirs</span><span class="op">(</span><span class="va">path_save</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">read_idat_minfi</span><span class="op">(</span></span>
+<span>  path_idat <span class="op">=</span> <span class="va">path_idat</span>,</span>
+<span>  pheno <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pheno_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  path_save <span class="op">=</span> <span class="va">path_save</span>,</span>
+<span>  estimate_cell_counts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="va">geo_ID</span>,</span>
+<span>  process_meth <span class="op">=</span> <span class="st">"quantile"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_epis</span> <span class="op">&lt;-</span> <span class="va">GRset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="va">episignature_cpgs</span><span class="op">$</span><span class="va">id</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Diagnosis <span class="op">=</span> <span class="va">mutation</span>,</span>
+<span>    Age <span class="op">=</span> <span class="cn">NA_real_</span>,</span>
+<span>    Sex <span class="op">=</span> <span class="va">predSex</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Diagnosis</span>, <span class="va">Dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset_epis</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"GRset_epis_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The script also compares beta-values generated from the IDAT workflow with the processed beta-values distributed through GEO. PCA provides a simple visual check of whether the two data sources show similar broad structure. This comparison is descriptive; it does not imply that the two preprocessing procedures produce identical methylation values.</p>
+</div>
+<div id="prepare-gse218186" class="section level2" number="6.7">
+<h2>
+<span class="header-section-number">6.7</span> Prepare <code>GSE218186</code><a class="anchor" aria-label="anchor" href="#prepare-gse218186"><i class="fas fa-link"></i></a>
+</h2>
+<p><code>GSE218186</code> provides another independent array-based testing cohort. It is not used to define the Kabuki CpG panel or to fit the SVM.</p>
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">geo_ID</span> <span class="op">&lt;-</span> <span class="st">"GSE218186"</span></span>
+<span><span class="va">path_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span>, <span class="va">geo_ID</span><span class="op">)</span></span>
+<span><span class="va">path_idat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"IDATs"</span><span class="op">)</span></span>
+<span><span class="fu">ensure_project_dirs</span><span class="op">(</span><span class="va">path_save</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">read_idat_minfi</span><span class="op">(</span></span>
+<span>  path_idat <span class="op">=</span> <span class="va">path_idat</span>,</span>
+<span>  pheno <span class="op">=</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pheno_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>, show_col_types <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  path_save <span class="op">=</span> <span class="va">path_save</span>,</span>
+<span>  estimate_cell_counts <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="va">geo_ID</span>,</span>
+<span>  process_meth <span class="op">=</span> <span class="st">"funnorm"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_epis</span> <span class="op">&lt;-</span> <span class="va">GRset</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="va">episignature_cpgs</span><span class="op">$</span><span class="va">id</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_epis</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Diagnosis <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Kabuki"</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Control"</span><span class="op">)</span>,</span>
+<span>    Age <span class="op">=</span> <span class="cn">NA_real_</span>,</span>
+<span>    Sex <span class="op">=</span> <span class="va">predSex</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Diagnosis</span>, <span class="va">Dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset_epis</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"GRset_epis_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="convert-long-read-beta-workbook-to-a-genomicratioset" class="section level2" number="6.8">
+<h2>
+<span class="header-section-number">6.8</span> Convert long-read beta workbook to a <code>GenomicRatioSet</code><a class="anchor" aria-label="anchor" href="#convert-long-read-beta-workbook-to-a-genomicratioset"><i class="fas fa-link"></i></a>
+</h2>
+<p>The long-read script reads the methylation workbook from Hildonen et al. <span class="citation">(<a href="references.html#ref-hildonen2026longread">Hildonen et al. 2026</a>)</span>. In this file, a few rows contain sample metadata (<code>Platform</code>, <code>Affected</code>, and <code>Cohort</code>) and the remaining rows contain CpG methylation values. The code separates those two parts before creating the <code>GenomicRatioSet</code>.</p>
+<div class="sourceCode" id="cb55"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">path_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span>, <span class="st">"PMID41225292"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">table_metadata</span> <span class="op">&lt;-</span> <span class="fu">readxl</span><span class="fu">::</span><span class="fu"><a href="https://readxl.tidyverse.org/reference/read_excel.html">read_excel</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Kabuki_PB_ONT_PMID41225292.xlsx"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pheno_lr</span> <span class="op">&lt;-</span> <span class="va">table_metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Platform"</span>, <span class="st">"Affected"</span>, <span class="st">"Cohort"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span>cols <span class="op">=</span> <span class="op">-</span><span class="va">ID</span>, names_to <span class="op">=</span> <span class="st">"geo_accession"</span>, values_to <span class="op">=</span> <span class="st">"value"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_wider.html">pivot_wider</a></span><span class="op">(</span>names_from <span class="op">=</span> <span class="va">ID</span>, values_from <span class="op">=</span> <span class="va">value</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"_.*"</span>, <span class="st">""</span>, <span class="va">geo_accession</span><span class="op">)</span>,</span>
+<span>    Case_Cont <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span><span class="va">Affected</span> <span class="op">==</span> <span class="st">"Affected"</span> <span class="op">~</span> <span class="st">"Case"</span>, <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Control"</span><span class="op">)</span>,</span>
+<span>    Diagnosis <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">Platform</span> <span class="op">==</span> <span class="st">"Array"</span> <span class="op">&amp;</span> <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Kabuki"</span>,</span>
+<span>      <span class="va">Platform</span> <span class="op">==</span> <span class="st">"Array"</span> <span class="op">&amp;</span> <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Control"</span>,</span>
+<span>      <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Kabuki_"</span>, <span class="va">Platform</span><span class="op">)</span>,</span>
+<span>      <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"Control_"</span>, <span class="va">Platform</span><span class="op">)</span></span>
+<span>    <span class="op">)</span>,</span>
+<span>    Dataset <span class="op">=</span> <span class="va">Platform</span>,</span>
+<span>    Sex <span class="op">=</span> <span class="cn">NA_character_</span>,</span>
+<span>    Age <span class="op">=</span> <span class="cn">NA_real_</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">title</span>, <span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">Sex</span>, <span class="va">Age</span>, <span class="va">Diagnosis</span>, <span class="va">Dataset</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">betas_lr</span> <span class="op">&lt;-</span> <span class="va">table_metadata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">ID</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Platform"</span>, <span class="st">"Affected"</span>, <span class="st">"Cohort"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"ID"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_lr</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/makeGenomicRatioSetFromMatrix.html">makeGenomicRatioSetFromMatrix</a></span><span class="op">(</span></span>
+<span>  <span class="va">betas_lr</span>,</span>
+<span>  pData <span class="op">=</span> <span class="va">pheno_lr</span>,</span>
+<span>  what <span class="op">=</span> <span class="st">"Beta"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset_lr</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"GRset_epis_PMID41225292.rds"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>This object contains only the CpGs available in the workbook. A trained classifier can only be applied if all of its required predictor CpGs are present. The later guard performs this check explicitly rather than silently scoring an incomplete feature set.</p>
+</div>
+<div id="combine-kabuki-datasets" class="section level2" number="6.9">
+<h2>
+<span class="header-section-number">6.9</span> Combine Kabuki datasets<a class="anchor" aria-label="anchor" href="#combine-kabuki-datasets"><i class="fas fa-link"></i></a>
+</h2>
+<p><code>Kabuki_analysis.R</code> loads the prepared <code>GRset_epis_*</code> objects and identifies the CpGs shared across them. This common set is useful for direct cross-dataset visualization, but prediction still requires the complete predictor set expected by the trained model.</p>
+<div class="sourceCode" id="cb56"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">path_save</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">project_root</span>, <span class="st">"Kabuki"</span><span class="op">)</span></span>
+<span><span class="va">svm_mod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"GSE97362"</span>, <span class="st">"svm_model_GSE97362.rds"</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">list_files</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">list.files</a></span><span class="op">(</span></span>
+<span>  path <span class="op">=</span> <span class="va">path_save</span>,</span>
+<span>  pattern <span class="op">=</span> <span class="st">"GRset_epis_"</span>,</span>
+<span>  full.names <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  recursive <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">list_GRsets</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html">lapply</a></span><span class="op">(</span><span class="va">list_files</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">readRDS</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span>  <span class="kw">if</span> <span class="op">(</span><span class="st">"CN"</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assayNames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>    <span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">assay</a></span><span class="op">(</span><span class="va">GRset</span>, <span class="st">"CN"</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="cn">NULL</span></span>
+<span>  <span class="op">}</span></span>
+<span>  <span class="va">GRset</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">common_cpgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/funprog.html">Reduce</a></span><span class="op">(</span><span class="va">intersect</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html">lapply</a></span><span class="op">(</span><span class="va">list_GRsets</span>, <span class="va">rownames</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">model_cpgs</span> <span class="op">&lt;-</span> <span class="fu">model_predictor_names</span><span class="op">(</span><span class="va">svm_mod</span><span class="op">)</span></span>
+<span><span class="va">missing_model_cpgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="va">model_cpgs</span>, <span class="va">common_cpgs</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">missing_model_cpgs</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"The combined Kabuki object is missing model CpGs. Do not score until this is resolved."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="va">GRset_common</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/funprog.html">Reduce</a></span><span class="op">(</span><span class="va">cbind</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html">lapply</a></span><span class="op">(</span><span class="va">list_GRsets</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span><span class="op">[</span><span class="va">common_cpgs</span>, <span class="op">]</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The explicit check prevents accidental scoring with missing features. If the combined data do not contain every CpG used to train the SVM, the code stops. In a real analysis, the solution must be defined before scoring—for example, training a new model on a pre-specified shared CpG set using the training data only. Missing predictors should not simply be ignored.</p>
+</div>
+<div id="assign-plot-statuses" class="section level2" number="6.10">
+<h2>
+<span class="header-section-number">6.10</span> Assign plot statuses<a class="anchor" aria-label="anchor" href="#assign-plot-statuses"><i class="fas fa-link"></i></a>
+</h2>
+<p>For plotting and interpretation, the script separates confirmed training samples from independent array samples, ONT/PacBio samples, and CHARGE/CHD7 comparators. These labels do not change the model; they make it possible to see whether prediction behaviour differs by disease group, dataset, or platform.</p>
+<div class="sourceCode" id="cb57"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset_common</span><span class="op">$</span><span class="va">Status</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">svm_mod</span><span class="op">$</span><span class="va">trainingData</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Train Kabuki"</span>,</span>
+<span>    <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">svm_mod</span><span class="op">$</span><span class="va">trainingData</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Train Control"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Diagnosis</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CHARGE"</span>, <span class="st">"CHD7 variant"</span><span class="op">)</span> <span class="op">~</span> <span class="st">"CHARGE"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"ONT_A"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Kabuki_ONT_A"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"ONT_WGS"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Kabuki_ONT_WGS"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"PacBio"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Kabuki_PacBio"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"ONT_A"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Control_ONT_A"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"ONT_WGS"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Control_ONT_WGS"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"PacBio"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Control_PacBio"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">==</span> <span class="st">"Array"</span> <span class="op">&amp;</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Test Kabuki"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span> <span class="op">~</span> <span class="st">"Test Kabuki"</span>,</span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span> <span class="op">~</span> <span class="st">"Test Control"</span></span>
+<span>  <span class="op">)</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>    <span class="st">"Train Kabuki"</span>, <span class="st">"Train Control"</span>, <span class="st">"Test Kabuki"</span>,</span>
+<span>    <span class="st">"Kabuki_ONT_A"</span>, <span class="st">"Kabuki_ONT_WGS"</span>, <span class="st">"Kabuki_PacBio"</span>,</span>
+<span>    <span class="st">"Test Control"</span>, <span class="st">"Control_ONT_A"</span>, <span class="st">"Control_ONT_WGS"</span>, <span class="st">"Control_PacBio"</span>,</span>
+<span>    <span class="st">"CHARGE"</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_common</span><span class="op">$</span><span class="va">dataset_id</span> <span class="op">&lt;-</span> <span class="va">GRset_common</span><span class="op">$</span><span class="va">Dataset</span></span>
+<span><span class="va">GRset_common</span><span class="op">$</span><span class="va">dataset_id</span><span class="op">[</span><span class="va">GRset_common</span><span class="op">$</span><span class="va">dataset_id</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"PacBio"</span>, <span class="st">"ONT_A"</span>, <span class="st">"ONT_WGS"</span>, <span class="st">"Array"</span><span class="op">)</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="st">"PMID41225292"</span></span>
+<span><span class="va">GRset_common</span><span class="op">$</span><span class="va">dataset_id</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span></span>
+<span>  <span class="va">GRset_common</span><span class="op">$</span><span class="va">dataset_id</span>,</span>
+<span>  levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"GSE97362"</span>, <span class="st">"GSE116300"</span>, <span class="st">"GSE218186"</span>, <span class="st">"PMID41225292"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="pca-on-kabuki-episignature-cpgs" class="section level2" number="6.11">
+<h2>
+<span class="header-section-number">6.11</span> PCA on Kabuki episignature CpGs<a class="anchor" aria-label="anchor" href="#pca-on-kabuki-episignature-cpgs"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb58"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">betas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/t.html">t</a></span><span class="op">(</span><span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/MethylSet-class.html">getBeta</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">[</span><span class="va">model_cpgs</span>, <span class="op">]</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pca_res</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span><span class="va">betas</span>, scale. <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="va">var_explained</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span> <span class="op">*</span> <span class="va">pca_res</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pca_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PC1</span>, <span class="va">PC2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">col_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"Train Control"</span> <span class="op">=</span> <span class="st">"lightblue"</span>,</span>
+<span>  <span class="st">"Train Kabuki"</span> <span class="op">=</span> <span class="st">"lightcoral"</span>,</span>
+<span>  <span class="st">"Test Control"</span> <span class="op">=</span> <span class="st">"dodgerblue"</span>,</span>
+<span>  <span class="st">"Control_ONT_A"</span> <span class="op">=</span> <span class="st">"cornflowerblue"</span>,</span>
+<span>  <span class="st">"Control_ONT_WGS"</span> <span class="op">=</span> <span class="st">"royalblue"</span>,</span>
+<span>  <span class="st">"Control_PacBio"</span> <span class="op">=</span> <span class="st">"mediumblue"</span>,</span>
+<span>  <span class="st">"Test Kabuki"</span> <span class="op">=</span> <span class="st">"firebrick"</span>,</span>
+<span>  <span class="st">"Kabuki_ONT_A"</span> <span class="op">=</span> <span class="st">"orangered"</span>,</span>
+<span>  <span class="st">"Kabuki_ONT_WGS"</span> <span class="op">=</span> <span class="st">"#7a2607"</span>,</span>
+<span>  <span class="st">"Kabuki_PacBio"</span> <span class="op">=</span> <span class="st">"darkred"</span>,</span>
+<span>  <span class="st">"CHARGE"</span> <span class="op">=</span> <span class="st">"forestgreen"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">shape_pal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span></span>
+<span>  <span class="st">"GSE97362"</span> <span class="op">=</span> <span class="fl">21</span>,</span>
+<span>  <span class="st">"GSE116300"</span> <span class="op">=</span> <span class="fl">22</span>,</span>
+<span>  <span class="st">"GSE218186"</span> <span class="op">=</span> <span class="fl">23</span>,</span>
+<span>  <span class="st">"PMID41225292"</span> <span class="op">=</span> <span class="fl">24</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plt_pca</span> <span class="op">&lt;-</span> <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pca_df</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">PC1</span>, <span class="va">PC2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="va">Status</span>, shape <span class="op">=</span> <span class="va">dataset_id</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2.5</span>, alpha <span class="op">=</span> <span class="fl">0.75</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>    x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC1 ("</span>, <span class="va">var_explained</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"% var)"</span><span class="op">)</span>,</span>
+<span>    y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC2 ("</span>, <span class="va">var_explained</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"% var)"</span><span class="op">)</span>,</span>
+<span>    fill <span class="op">=</span> <span class="st">"Status"</span>,</span>
+<span>    shape <span class="op">=</span> <span class="st">"Dataset"</span></span>
+<span>  <span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_fill_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">col_pal</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/scale_manual.html">scale_shape_manual</a></span><span class="op">(</span>values <span class="op">=</span> <span class="va">shape_pal</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">plot_custom_theme</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="svm-scores-across-datasets" class="section level2" number="6.12">
+<h2>
+<span class="header-section-number">6.12</span> SVM scores across datasets<a class="anchor" aria-label="anchor" href="#svm-scores-across-datasets"><i class="fas fa-link"></i></a>
+</h2>
+<div class="sourceCode" id="cb59"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">predictions_df</span> <span class="op">&lt;-</span> <span class="fu">predict_model_on_grset</span><span class="op">(</span><span class="va">svm_mod</span>, <span class="va">GRset_common</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plt_svm</span> <span class="op">&lt;-</span> <span class="fu">svm_plt</span><span class="op">(</span><span class="va">predictions_df</span>, col_pal <span class="op">=</span> <span class="va">col_pal</span>, shape_pal <span class="op">=</span> <span class="va">shape_pal</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span></span>
+<span>  <span class="va">predictions_df</span>,</span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables"</span>, <span class="st">"SVM_predictions_Episignature.xlsx"</span><span class="op">)</span>,</span>
+<span>  rowNames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+<p>The score plot answers a classification question:</p>
+<ul>
+<li>confirmed Kabuki array samples should receive high case scores if the expected episignature is preserved;</li>
+<li>controls should remain low if specificity is maintained;</li>
+<li>CHARGE/CHD7 samples test whether the classifier confuses a related developmental disorder with Kabuki;</li>
+<li>ONT and PacBio samples test whether the array-derived Kabuki signal remains detectable in long-read methylation estimates.</li>
+</ul>
+<p>In the manuscript analysis, the molecularly confirmed Kabuki samples and controls were classified according to their expected status, and variant samples previously interpreted as non-pathogenic produced negative results consistent with the published interpretation. The long-read Kabuki and control profiles were also classified as expected. These observations demonstrate transfer of a strong signal in this example, not universal cross-platform equivalence.</p>
+</div>
+<div id="long-read-deviation-analysis" class="section level2" number="6.13">
+<h2>
+<span class="header-section-number">6.13</span> Long-read deviation analysis<a class="anchor" aria-label="anchor" href="#long-read-deviation-analysis"><i class="fas fa-link"></i></a>
+</h2>
+<p>The final part of <code>Kabuki_analysis.R</code> asks a different question: even if classification is correct, how far are the methylation values from an array-based reference? The script:</p>
+<ol style="list-style-type: decimal">
+<li>selects high-confidence non-long-read samples: cases with <code>Case &gt; 0.75</code> and controls with <code>Case &lt; 0.25</code>;</li>
+<li>randomly uses 80% of those samples to build class-specific array reference profiles;</li>
+<li>calculates the mean beta-value and beta-value standard deviation for each CpG within cases and controls;</li>
+<li>calculates each remaining sample’s deviation from the appropriate class reference;</li>
+<li>compares those deviations across array and long-read platforms.</li>
+</ol>
+<p>These 0.75/0.25 thresholds are used here to construct a clean reference set for this exploratory comparison. They are not proposed as general diagnostic thresholds.</p>
+<div class="sourceCode" id="cb60"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">samples_keep</span> <span class="op">&lt;-</span> <span class="va">predictions_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span></span>
+<span>    <span class="va">dataset_id</span> <span class="op">!=</span> <span class="st">"PMID41225292"</span>,</span>
+<span>    <span class="va">Status</span> <span class="op">!=</span> <span class="st">"CHARGE"</span>,</span>
+<span>    <span class="op">(</span><span class="va">Case</span> <span class="op">&gt;</span> <span class="fl">0.75</span> <span class="op">&amp;</span> <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Case"</span><span class="op">)</span> <span class="op">|</span> <span class="op">(</span><span class="va">Case</span> <span class="op">&lt;</span> <span class="fl">0.25</span> <span class="op">&amp;</span> <span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Status</span>, <span class="va">Case_Cont</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_sample</a></span><span class="op">(</span>prop <span class="op">=</span> <span class="fl">0.8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html">pull</a></span><span class="op">(</span><span class="va">geo_accession</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset_reference</span> <span class="op">&lt;-</span> <span class="va">GRset_common</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="va">samples_keep</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">summary_betas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/MethylSet-class.html">getBeta</a></span><span class="op">(</span><span class="va">GRset_reference</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, names_to <span class="op">=</span> <span class="st">"geo_accession"</span>, values_to <span class="op">=</span> <span class="st">"Beta"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">Beta</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_reference</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">id</span>, <span class="va">Case_Cont</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a></span><span class="op">(</span></span>
+<span>    mean_beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/mean.html">mean</a></span><span class="op">(</span><span class="va">Beta</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    sd_beta <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">Beta</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    n <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>Then compute sample-level deviations:</p>
+<div class="sourceCode" id="cb61"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset_valid</span> <span class="op">&lt;-</span> <span class="va">GRset_common</span><span class="op">[</span></span>
+<span>  ,</span>
+<span>  <span class="op">!</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">GRset_common</span><span class="op">)</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="va">samples_keep</span> <span class="op">&amp;</span></span>
+<span>    <span class="va">GRset_common</span><span class="op">$</span><span class="va">Status</span> <span class="op">!=</span> <span class="st">"CHARGE"</span></span>
+<span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">diff_betas</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/MethylSet-class.html">getBeta</a></span><span class="op">(</span><span class="va">GRset_valid</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"id"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html">pivot_longer</a></span><span class="op">(</span><span class="op">-</span><span class="va">id</span>, names_to <span class="op">=</span> <span class="st">"geo_accession"</span>, values_to <span class="op">=</span> <span class="st">"Beta"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>Beta <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span><span class="op">(</span><span class="va">Beta</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_valid</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">summary_betas</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"id"</span>, <span class="st">"Case_Cont"</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    beta_diff <span class="op">=</span> <span class="va">Beta</span> <span class="op">-</span> <span class="va">mean_beta</span>,</span>
+<span>    z_score <span class="op">=</span> <span class="va">beta_diff</span> <span class="op">/</span> <span class="va">sd_beta</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="va">sample_deviation</span> <span class="op">&lt;-</span> <span class="va">diff_betas</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">dataset_id</span>, <span class="va">Status</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/reframe.html">reframe</a></span><span class="op">(</span></span>
+<span>    mean_abs_diff <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">beta_diff</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    mean_abs_z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/mean.html">mean</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">z_score</span><span class="op">)</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    mean_z <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/mean.html">mean</a></span><span class="op">(</span><span class="va">z_score</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    sd_z <span class="op">=</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/sd.html">sd</a></span><span class="op">(</span><span class="va">z_score</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>    n_cpg <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">predictions_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">geo_accession</span>, <span class="va">Case</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span></span></code></pre></div>
+<p>This deviation analysis is exploratory. In the manuscript example, long-read profiles show larger deviations from the array-derived reference than independent array samples, while matched array profiles remain closer to the expected array range. This supports a platform-mediated shift in the methylation measurements even though the Kabuki disease signal is still detectable <span class="citation">(<a href="references.html#ref-hildonen2026longread">Hildonen et al. 2026</a>)</span>.</p>
+</div>
+<div id="what-kabuki-teaches" class="section level2" number="6.14">
+<h2>
+<span class="header-section-number">6.14</span> What Kabuki teaches<a class="anchor" aria-label="anchor" href="#what-kabuki-teaches"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Kabuki workflow illustrates several validation questions that should be kept separate:</p>
+<ul>
+<li><strong>Does the fixed CpG panel distinguish Kabuki from controls in independent array data?</strong></li>
+<li><strong>Does it remain specific when challenged with CHARGE/CHD7 comparators?</strong></li>
+<li><strong>Can the disease-associated signal still be detected in ONT and PacBio methylation profiles?</strong></li>
+<li><strong>Are the underlying methylation values numerically comparable across platforms?</strong></li>
+</ul>
+<p>For this Kabuki example, the answer to the classification question is encouraging, while the PCA, clustering, and deviation analyses still show systematic technology-related differences. The result is therefore best viewed as a proof of principle for a strong established episignature, not as evidence that every array-derived episignature can be transferred to long-read data without additional validation.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></div>
+<div class="next"><a href="wrapper-functions.html"><span class="header-section-number">7</span> Wrapper functions</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#kabuki"><span class="header-section-number">6</span> Kabuki Workflow</a></li>
+<li><a class="nav-link" href="#kabuki-data-sources"><span class="header-section-number">6.1</span> Kabuki data sources</a></li>
+<li><a class="nav-link" href="#prepare-the-gse97362-training-cohort"><span class="header-section-number">6.2</span> Prepare the GSE97362 training cohort</a></li>
+<li><a class="nav-link" href="#subset-to-published-kabuki-cpgs"><span class="header-section-number">6.3</span> Subset to published Kabuki CpGs</a></li>
+<li><a class="nav-link" href="#train-the-kabuki-svm"><span class="header-section-number">6.4</span> Train the Kabuki SVM</a></li>
+<li><a class="nav-link" href="#score-all-gse97362-samples"><span class="header-section-number">6.5</span> Score all GSE97362 samples</a></li>
+<li><a class="nav-link" href="#prepare-gse116300"><span class="header-section-number">6.6</span> Prepare GSE116300</a></li>
+<li><a class="nav-link" href="#prepare-gse218186"><span class="header-section-number">6.7</span> Prepare GSE218186</a></li>
+<li><a class="nav-link" href="#convert-long-read-beta-workbook-to-a-genomicratioset"><span class="header-section-number">6.8</span> Convert long-read beta workbook to a GenomicRatioSet</a></li>
+<li><a class="nav-link" href="#combine-kabuki-datasets"><span class="header-section-number">6.9</span> Combine Kabuki datasets</a></li>
+<li><a class="nav-link" href="#assign-plot-statuses"><span class="header-section-number">6.10</span> Assign plot statuses</a></li>
+<li><a class="nav-link" href="#pca-on-kabuki-episignature-cpgs"><span class="header-section-number">6.11</span> PCA on Kabuki episignature CpGs</a></li>
+<li><a class="nav-link" href="#svm-scores-across-datasets"><span class="header-section-number">6.12</span> SVM scores across datasets</a></li>
+<li><a class="nav-link" href="#long-read-deviation-analysis"><span class="header-section-number">6.13</span> Long-read deviation analysis</a></li>
+<li><a class="nav-link" href="#what-kabuki-teaches"><span class="header-section-number">6.14</span> What Kabuki teaches</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Episignatures Detection: A Practical Tutorial</strong>: From methylation arrays to CpG panels, classifiers, and external validation" was written by Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal. It was last built on 2026-08-19.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 2 Repository Map | Episignatures Detection: A Practical Tutorial</title>
+<meta name="author" content="Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal">
+<meta name="generator" content="bookdown 0.47 with bs4_book()">
+<meta property="og:title" content="Chapter 2 Repository Map | Episignatures Detection: A Practical Tutorial">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 2 Repository Map | Episignatures Detection: A Practical Tutorial">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script defer src="assets/theme-toggle.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/book-style.css">
+<meta name="description" content="This chapter maps the analysis scripts used throughout the tutorial. It is intended as a simple reference: for each dataset, it shows which script prepares the data, which outputs are created, and...">
+<meta property="og:description" content="This chapter maps the analysis scripts used throughout the tutorial. It is intended as a simple reference: for each dataset, it shows which script prepares the data, which outputs are created, and...">
+<meta name="twitter:description" content="This chapter maps the analysis scripts used throughout the tutorial. It is intended as a simple reference: for each dataset, it shows which script prepares the data, which outputs are created, and...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="From methylation arrays to CpG panels, classifiers, and external validation">Episignatures Detection: A Practical Tutorial</a>:
+        <small class="text-muted">From methylation arrays to CpG panels, classifiers, and external validation</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="primer.html"><span class="header-section-number">1</span> Primer for New Readers</a></li>
+<li><a class="active" href="repo-map.html"><span class="header-section-number">2</span> Repository Map</a></li>
+<li><a class="" href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></li>
+<li><a class="" href="preprocessing-qc.html"><span class="header-section-number">4</span> Preprocessing and Quality Control</a></li>
+<li><a class="" href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></li>
+<li><a class="" href="kabuki.html"><span class="header-section-number">6</span> Kabuki Workflow</a></li>
+<li><a class="" href="wrapper-functions.html"><span class="header-section-number">7</span> Wrapper functions</a></li>
+<li><a class="" href="references.html">Reference list</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="repo-map" class="section level1" number="2">
+<h1>
+<span class="header-section-number">2</span> Repository Map<a class="anchor" aria-label="anchor" href="#repo-map"><i class="fas fa-link"></i></a>
+</h1>
+<p>This chapter maps the analysis scripts used throughout the tutorial. It is intended as a simple reference: for each dataset, it shows which script prepares the data, which outputs are created, and where those outputs are used later.</p>
+<div id="top-level-helper" class="section level2" number="2.1">
+<h2>
+<span class="header-section-number">2.1</span> Top-level helper<a class="anchor" aria-label="anchor" href="#top-level-helper"><i class="fas fa-link"></i></a>
+</h2>
+<p><code>scripts/functions_TutorialEpis.R</code> contains shared functions:</p>
+<ul>
+<li>
+<code>read_idat_minfi()</code> reads IDATs, runs sample/probe detection P-value filters, predicts sex, normalizes, drops SNP and cross-reactive probes, and optionally estimates immune cell composition.</li>
+<li>
+<code>detect_pca_outliers()</code> identifies PC1/PC2 outliers by Mahalanobis distance within <code>Case_Cont</code> groups.</li>
+<li>model wrappers such as <code>svm_training_f()</code>, <code>elastic_net_training_f()</code>, <code>ranger_training_f()</code>, <code>knn_training_f()</code>, and others train binary classifiers through <code>caret</code>.</li>
+<li>plotting helpers create SVM score plots, heatmaps, and palettes.</li>
+</ul>
+<p>The tutorial helper at <code>scripts/bookdown_episignatures_tutorial/R/functions_tutorial_epis.R</code> follows the same general analysis logic but makes paths explicit and adds input checks that are useful for a public, step-by-step workflow. These safeguards also address several portability and first-run issues documented in the maintainer notes.</p>
+</div>
+<div id="williams-scripts" class="section level2" number="2.2">
+<h2>
+<span class="header-section-number">2.2</span> Williams scripts<a class="anchor" aria-label="anchor" href="#williams-scripts"><i class="fas fa-link"></i></a>
+</h2>
+<div id="scriptswilliams_analysis.r" class="section level3" number="2.2.1">
+<h3>
+<span class="header-section-number">2.2.1</span> <code>scripts/Williams_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptswilliams_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This is the main Williams episignature discovery workflow.</p>
+<p>Its sections are:</p>
+<ol style="list-style-type: decimal">
+<li>configure paths for <code>GSE119778</code>;</li>
+<li>retrieve phenotype metadata from GEO;</li>
+<li>read IDATs and preprocess methylation arrays;</li>
+<li>estimate immune cell proportions;</li>
+<li>run PCA for batch and outlier detection;</li>
+<li>define discovery and validation samples;</li>
+<li>run limma on discovery samples;</li>
+<li>rank DMPs and select episignature CpGs;</li>
+<li>train several classifiers on beta-values and M-values;</li>
+<li>score discovery, internal validation, and external <code>GSE66552</code> samples;</li>
+<li>export plots and prediction tables.</li>
+</ol>
+<p>Important outputs include:</p>
+<ul>
+<li><code>Williams/GSE119778/GRset_GSE119778.rds</code></li>
+<li><code>Williams/GSE119778/Tables/DMPs_limma_GSE119778.xlsx</code></li>
+<li><code>Williams/GSE119778/Tables/EpisignatureCpGs_GSE119778.xlsx</code></li>
+<li><code>Williams/GSE119778/_classification_models_GSE119778.rds</code></li>
+<li><code>Williams/GSE119778/Tables/Classification_predictions_GSE119778.xlsx</code></li>
+</ul>
+</div>
+<div id="scriptswilliamsgse66552gse66552_analysis.r" class="section level3" number="2.2.2">
+<h3>
+<span class="header-section-number">2.2.2</span> <code>scripts/Williams/GSE66552/GSE66552_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptswilliamsgse66552gse66552_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This script prepares the independent Williams validation/comparator dataset <code>GSE66552</code> <span class="citation">(<a href="references.html#ref-strong2015williams">Strong et al. 2015</a>)</span>. It:</p>
+<ol style="list-style-type: decimal">
+<li>parses GEO metadata for typical controls, Williams syndrome, and 7q11.23 duplication samples;</li>
+<li>preprocesses the IDATs;</li>
+<li>runs PCA to inspect technical and diagnostic structure;</li>
+<li>subsets the object to the Williams CpGs discovered only from <code>GSE119778</code>;</li>
+<li>saves <code>GRset_epi_GSE66552.rds</code> for external scoring by the main Williams script.</li>
+</ol>
+<p>The 7q11.23 duplication samples are comparators rather than Williams cases and are useful for checking whether the learned methylation pattern is specific to the deletion-associated Williams profile.</p>
+</div>
+</div>
+<div id="kabuki-scripts" class="section level2" number="2.3">
+<h2>
+<span class="header-section-number">2.3</span> Kabuki scripts<a class="anchor" aria-label="anchor" href="#kabuki-scripts"><i class="fas fa-link"></i></a>
+</h2>
+<div id="scriptskabukigse97362kabuki_gse97362_analysis.r" class="section level3" number="2.3.1">
+<h3>
+<span class="header-section-number">2.3.1</span> <code>scripts/Kabuki/GSE97362/Kabuki_GSE97362_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptskabukigse97362kabuki_gse97362_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This script prepares the array cohort used to train the Kabuki classifier. Unlike the Williams workflow, it does not discover a new CpG panel. It reads an established Kabuki episignature panel stored at:</p>
+<pre class="text"><code>scripts/Kabuki/PMID41225292/episignature_PMID41225292.xlsx</code></pre>
+<p>The script:</p>
+<ol style="list-style-type: decimal">
+<li>parses GEO metadata including sex, age, diagnosis, and sample type;</li>
+<li>preprocesses IDATs with <code>read_idat_minfi()</code>;</li>
+<li>subsets the data to the published Kabuki episignature CpGs;</li>
+<li>identifies the confirmed discovery/training subset defined by the original Kabuki study;</li>
+<li>trains a linear SVM on that fixed CpG panel;</li>
+<li>scores the remaining samples and exports the prediction results.</li>
+</ol>
+<p>The underlying Kabuki methylation cohort was described by Butcher et al. <span class="citation">(<a href="references.html#ref-butcher2017chargekabuki">Butcher et al. 2017</a>)</span>.</p>
+</div>
+<div id="scriptskabukigse116300kabuki_gse116300_analysis.r" class="section level3" number="2.3.2">
+<h3>
+<span class="header-section-number">2.3.2</span> <code>scripts/Kabuki/GSE116300/Kabuki_GSE116300_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptskabukigse116300kabuki_gse116300_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This prepares the independent Kabuki cohort <code>GSE116300</code>, originally reported by Sobreira et al. <span class="citation">(<a href="references.html#ref-sobreira2017kabuki">Sobreira et al. 2017</a>)</span>. The script uses <code>process_meth = "quantile"</code> rather than functional normalization and compares IDAT-derived beta-values with the processed GEO values by PCA. This comparison helps the reader see whether the two preprocessing sources produce similar large-scale structure; it does not make the two preprocessing methods technically identical.</p>
+</div>
+<div id="scriptskabukigse218186kabuki_gse218186_analysis.r" class="section level3" number="2.3.3">
+<h3>
+<span class="header-section-number">2.3.3</span> <code>scripts/Kabuki/GSE218186/Kabuki_GSE218186_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptskabukigse218186kabuki_gse218186_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This prepares the additional external Kabuki array dataset <code>GSE218186</code>. Reported sex is not available in the GEO metadata used by the script, so predicted sex is stored in the harmonized <code>GRset_epis</code> object. The dataset is used for external testing rather than for defining the Kabuki CpG panel.</p>
+</div>
+<div id="scriptskabukipmid41225292lr_analysis.r" class="section level3" number="2.3.4">
+<h3>
+<span class="header-section-number">2.3.4</span> <code>scripts/Kabuki/PMID41225292/LR_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptskabukipmid41225292lr_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This script converts the methylation matrix provided with the long-read Kabuki study into a <code>GenomicRatioSet</code> using <code><a href="https://rdrr.io/pkg/minfi/man/makeGenomicRatioSetFromMatrix.html">makeGenomicRatioSetFromMatrix()</a></code>. It reads metadata rows such as <code>Platform</code>, <code>Affected</code>, and <code>Cohort</code>, creates the sample labels, and saves <code>GRset_epis_PMID41225292.rds</code> <span class="citation">(<a href="references.html#ref-hildonen2026longread">Hildonen et al. 2026</a>)</span>.</p>
+<p>This object is the bridge between the array-derived Kabuki episignature and methylation estimates generated with ONT and PacBio, together with the matched array measurements included in that study.</p>
+</div>
+<div id="scriptskabukikabuki_analysis.r" class="section level3" number="2.3.5">
+<h3>
+<span class="header-section-number">2.3.5</span> <code>scripts/Kabuki/Kabuki_analysis.R</code><a class="anchor" aria-label="anchor" href="#scriptskabukikabuki_analysis.r"><i class="fas fa-link"></i></a>
+</h3>
+<p>This is the combined Kabuki validation script. It:</p>
+<ol style="list-style-type: decimal">
+<li>loads the SVM trained in <code>GSE97362</code>;</li>
+<li>loads the prepared <code>GRset_epis_*</code> objects;</li>
+<li>identifies CpGs shared across the included datasets;</li>
+<li>checks that the CpGs required by the trained model are available before scoring;</li>
+<li>combines the compatible objects into <code>GRset_common</code>;</li>
+<li>labels training samples, external array samples, CHARGE/CHD7 comparators, and ONT/PacBio samples;</li>
+<li>runs PCA on the Kabuki episignature CpGs;</li>
+<li>applies the trained SVM;</li>
+<li>builds heatmap and summary figures;</li>
+<li>compares long-read methylation values with high-confidence array reference profiles.</li>
+</ol>
+<p>This script therefore addresses two questions separately: whether the Kabuki disease signal remains classifiable, and whether the numerical methylation values are directly comparable across technologies.</p>
+
+</div>
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="primer.html"><span class="header-section-number">1</span> Primer for New Readers</a></div>
+<div class="next"><a href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#repo-map"><span class="header-section-number">2</span> Repository Map</a></li>
+<li><a class="nav-link" href="#top-level-helper"><span class="header-section-number">2.1</span> Top-level helper</a></li>
+<li>
+<a class="nav-link" href="#williams-scripts"><span class="header-section-number">2.2</span> Williams scripts</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#scriptswilliams_analysis.r"><span class="header-section-number">2.2.1</span> scripts/Williams_analysis.R</a></li>
+<li><a class="nav-link" href="#scriptswilliamsgse66552gse66552_analysis.r"><span class="header-section-number">2.2.2</span> scripts/Williams/GSE66552/GSE66552_analysis.R</a></li>
+</ul>
+</li>
+<li>
+<a class="nav-link" href="#kabuki-scripts"><span class="header-section-number">2.3</span> Kabuki scripts</a><ul class="nav navbar-nav">
+<li><a class="nav-link" href="#scriptskabukigse97362kabuki_gse97362_analysis.r"><span class="header-section-number">2.3.1</span> scripts/Kabuki/GSE97362/Kabuki_GSE97362_analysis.R</a></li>
+<li><a class="nav-link" href="#scriptskabukigse116300kabuki_gse116300_analysis.r"><span class="header-section-number">2.3.2</span> scripts/Kabuki/GSE116300/Kabuki_GSE116300_analysis.R</a></li>
+<li><a class="nav-link" href="#scriptskabukigse218186kabuki_gse218186_analysis.r"><span class="header-section-number">2.3.3</span> scripts/Kabuki/GSE218186/Kabuki_GSE218186_analysis.R</a></li>
+<li><a class="nav-link" href="#scriptskabukipmid41225292lr_analysis.r"><span class="header-section-number">2.3.4</span> scripts/Kabuki/PMID41225292/LR_analysis.R</a></li>
+<li><a class="nav-link" href="#scriptskabukikabuki_analysis.r"><span class="header-section-number">2.3.5</span> scripts/Kabuki/Kabuki_analysis.R</a></li>
+</ul>
+</li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Episignatures Detection: A Practical Tutorial</strong>: From methylation arrays to CpG panels, classifiers, and external validation" was written by Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal. It was last built on 2026-08-19.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

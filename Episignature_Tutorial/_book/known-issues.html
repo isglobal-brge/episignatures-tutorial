@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 8 Review Notes and Things to Correct | Episignatures Detection: A Practical Tutorial</title>
+<meta name="author" content="Albert Alegret-García, Alejandro Cáceres, Luís A. Pérez-Jurado, Juan R. González | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal">
+<meta name="generator" content="bookdown 0.43 with bs4_book()">
+<meta property="og:title" content="Chapter 8 Review Notes and Things to Correct | Episignatures Detection: A Practical Tutorial">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 8 Review Notes and Things to Correct | Episignatures Detection: A Practical Tutorial">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script defer src="assets/theme-toggle.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/book-style.css">
+<meta name="description" content="While reviewing the repository scripts, I found several places that are worth correcting or at least documenting before sharing the workflow broadly. None of these invalidate the whole project,...">
+<meta property="og:description" content="While reviewing the repository scripts, I found several places that are worth correcting or at least documenting before sharing the workflow broadly. None of these invalidate the whole project,...">
+<meta name="twitter:description" content="While reviewing the repository scripts, I found several places that are worth correcting or at least documenting before sharing the workflow broadly. None of these invalidate the whole project,...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="From methylation arrays to CpG panels, classifiers, and external validation">Episignatures Detection: A Practical Tutorial</a>:
+        <small class="text-muted">From methylation arrays to CpG panels, classifiers, and external validation</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="primer.html"><span class="header-section-number">1</span> Primer for New Readers</a></li>
+<li><a class="" href="repo-map.html"><span class="header-section-number">2</span> Repository Map</a></li>
+<li><a class="" href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></li>
+<li><a class="" href="preprocessing-qc.html"><span class="header-section-number">4</span> Preprocessing and Quality Control</a></li>
+<li><a class="" href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></li>
+<li><a class="" href="kabuki.html"><span class="header-section-number">6</span> Kabuki Workflow</a></li>
+<li><a class="" href="new-cases.html"><span class="header-section-number">7</span> Developing and Testing New Cases</a></li>
+<li><a class="active" href="known-issues.html"><span class="header-section-number">8</span> Review Notes and Things to Correct</a></li>
+<li><a class="" href="render-share.html"><span class="header-section-number">9</span> Rendering and Sharing</a></li>
+<li><a class="" href="references.html">References and Citation Guide</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="known-issues" class="section level1" number="8">
+<h1>
+<span class="header-section-number">8</span> Review Notes and Things to Correct<a class="anchor" aria-label="anchor" href="#known-issues"><i class="fas fa-link"></i></a>
+</h1>
+<p>While reviewing the repository scripts, I found several places that are worth correcting or at least documenting before sharing the workflow broadly. None of these invalidate the whole project, but they are the kinds of details that can confuse new users or make reruns fragile.</p>
+<div id="hidden-path_save-dependency-in-the-original-helper" class="section level2" number="8.1">
+<h2>
+<span class="header-section-number">8.1</span> Hidden <code>path_save</code> dependency in the original helper<a class="anchor" aria-label="anchor" href="#hidden-path_save-dependency-in-the-original-helper"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/functions_TutorialEpis.R</code>, <code>read_idat_minfi()</code> writes cell counts using a global <code>path_save</code>:</p>
+<pre class="text"><code>scripts/functions_TutorialEpis.R:99</code></pre>
+<p>That means the function can fail or write to the wrong folder if <code>path_save</code> is not defined in the calling environment. The bookdown helper fixes this by adding <code>path_save</code> as an explicit argument.</p>
+<p>Recommended fix in the original helper:</p>
+<div class="sourceCode" id="cb73"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">read_idat_minfi</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">path_idat</span>, <span class="va">pheno</span>, <span class="va">path_save</span>, <span class="va">estimate_cell_counts</span> <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="co"># ...</span></span>
+<span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span></span>
+<span>    <span class="va">cell_counts</span>,</span>
+<span>    file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"CellCounts_"</span>, <span class="va">dataset_name</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+</div>
+<div id="kabuki-deviation-typo-sd-should-be-sd_beta" class="section level2" number="8.2">
+<h2>
+<span class="header-section-number">8.2</span> Kabuki deviation typo: <code>sd</code> should be <code>sd_beta</code><a class="anchor" aria-label="anchor" href="#kabuki-deviation-typo-sd-should-be-sd_beta"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/Kabuki/Kabuki_analysis.R</code>, the first deviation block has:</p>
+<pre class="text"><code>scripts/Kabuki/Kabuki_analysis.R:178</code></pre>
+<div class="sourceCode" id="cb75"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">z_score</span> <span class="op">=</span> <span class="va">beta_diff</span> <span class="op">/</span> <span class="va">sd</span></span></code></pre></div>
+<p>But <code>summary_betas</code> creates a column called <code>sd_beta</code>, not <code>sd</code>. Later in the same script, line 261 uses <code>sd_beta</code> correctly. The first block should be:</p>
+<div class="sourceCode" id="cb76"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">diff_betas</span> <span class="op">&lt;-</span> <span class="va">diff_betas</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    beta_diff <span class="op">=</span> <span class="va">Beta</span> <span class="op">-</span> <span class="va">mean_beta</span>,</span>
+<span>    z_score <span class="op">=</span> <span class="va">beta_diff</span> <span class="op">/</span> <span class="va">sd_beta</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>If the line with <code>sd</code> is executed, R will look for an object called <code>sd</code>; in many contexts that resolves to the base <code>sd()</code> function, which is not a numeric denominator.</p>
+</div>
+<div id="knn-training-reads-a-missing-diagnosis-column" class="section level2" number="8.3">
+<h2>
+<span class="header-section-number">8.3</span> KNN training reads a missing <code>Diagnosis</code> column<a class="anchor" aria-label="anchor" href="#knn-training-reads-a-missing-diagnosis-column"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/functions_TutorialEpis.R</code>, <code>knn_training_f()</code> calculates minority class size using:</p>
+<pre class="text"><code>scripts/functions_TutorialEpis.R:400</code></pre>
+<div class="sourceCode" id="cb78"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">n_minority</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="va">GRset_sbst</span><span class="op">$</span><span class="va">Diagnosis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>Most <code>GenomicRatioSet</code> objects in this repository use <code>Case_Cont</code>, not <code>Diagnosis</code>, as the binary training label. The helper should calculate this from the prepared training data:</p>
+<div class="sourceCode" id="cb79"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">train_df</span> <span class="op">&lt;-</span> <span class="fu">.prepare_binary_df</span><span class="op">(</span><span class="va">GRset_sbst</span>, <span class="va">beta_M</span><span class="op">)</span></span>
+<span><span class="va">n_minority</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="va">train_df</span><span class="op">$</span><span class="va">Diagnosis</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The new helper in this book uses that pattern.</p>
+</div>
+<div id="comment-mismatch-in-williams-cpg-selection" class="section level2" number="8.4">
+<h2>
+<span class="header-section-number">8.4</span> Comment mismatch in Williams CpG selection<a class="anchor" aria-label="anchor" href="#comment-mismatch-in-williams-cpg-selection"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/Williams_analysis.R</code>, the variable-importance filter says:</p>
+<pre class="text"><code>scripts/Williams_analysis.R:337</code></pre>
+<div class="sourceCode" id="cb81"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">Case</span> <span class="op">&gt;</span> <span class="fu"><a href="https://rdrr.io/r/stats/quantile.html">quantile</a></span><span class="op">(</span><span class="va">Case</span>, <span class="fl">0.5</span><span class="op">)</span> <span class="co"># Keep the top 25% most important CpGs.</span></span></code></pre></div>
+<p><code>quantile(Case, 0.5)</code> keeps CpGs above the median, which is the top 50%, not the top 25%. Either update the comment or change the quantile to <code>0.75</code>.</p>
+</div>
+<div id="svm-grid-comment-mentions-sigma-but-the-model-is-linear" class="section level2" number="8.5">
+<h2>
+<span class="header-section-number">8.5</span> SVM grid comment mentions sigma, but the model is linear<a class="anchor" aria-label="anchor" href="#svm-grid-comment-mentions-sigma-but-the-model-is-linear"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/functions_TutorialEpis.R</code>, the SVM grid comment says:</p>
+<pre class="text"><code>scripts/functions_TutorialEpis.R:210</code></pre>
+<div class="sourceCode" id="cb83"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">cost</span> <span class="op">=</span> <span class="fl">10</span><span class="op">^</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">4</span>, <span class="fl">4</span>, length.out <span class="op">=</span> <span class="fl">40</span><span class="op">)</span> <span class="co"># Sigma values ...</span></span></code></pre></div>
+<p>For <code>svmLinear2</code>, this grid tunes <code>cost</code>, not radial-kernel sigma. Recommended comment:</p>
+<div class="sourceCode" id="cb84"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># Cost values for the linear SVM margin penalty.</span></span></code></pre></div>
+</div>
+<div id="heatmap-helper-has-hard-coded-temp-paths-and-a-fragile-regex" class="section level2" number="8.6">
+<h2>
+<span class="header-section-number">8.6</span> Heatmap helper has hard-coded temp paths and a fragile regex<a class="anchor" aria-label="anchor" href="#heatmap-helper-has-hard-coded-temp-paths-and-a-fragile-regex"><i class="fas fa-link"></i></a>
+</h2>
+<p>In <code>scripts/functions_TutorialEpis.R</code>, <code>hclust_plt()</code> writes temporary PDFs to:</p>
+<pre class="text"><code>/PROJECTES/GENOMICS/aalegret/Epimutations_Episignatures/Datasets/tmp_plot.pdf</code></pre>
+<p>This makes the function machine-specific. It also contains:</p>
+<pre class="text"><code>scripts/functions_TutorialEpis.R:644</code></pre>
+<div class="sourceCode" id="cb87"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/grep.html">grepl</a></span><span class="op">(</span><span class="st">"*.Array"</span>, <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">samples_col</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+<p>The regex is fragile because <code>*</code> has special regex meaning. Use <code>grepl("Array", names(samples_col), fixed = TRUE)</code> or a stricter escaped pattern.</p>
+</div>
+<div id="scripts-are-not-clean-first-run-pipelines" class="section level2" number="8.7">
+<h2>
+<span class="header-section-number">8.7</span> Scripts are not clean first-run pipelines<a class="anchor" aria-label="anchor" href="#scripts-are-not-clean-first-run-pipelines"><i class="fas fa-link"></i></a>
+</h2>
+<p>Several dataset scripts begin by loading objects that are created later in the same file. For example:</p>
+<pre class="text"><code>scripts/Williams_analysis.R:17
+scripts/Williams_analysis.R:138
+scripts/Kabuki/GSE97362/Kabuki_GSE97362_analysis.R:16</code></pre>
+<p>This is normal for exploratory R scripts run section-by-section, but confusing for readers who expect <code>source("script.R")</code> to work from a clean folder. For shareable workflows, split each dataset into:</p>
+<ol style="list-style-type: decimal">
+<li><code>01_prepare_pheno.R</code></li>
+<li><code>02_preprocess_idats.R</code></li>
+<li><code>03_qc_pca.R</code></li>
+<li><code>04_discover_signature.R</code></li>
+<li><code>05_train_score.R</code></li>
+</ol>
+<p>Or use an explicit <code>targets</code>/<code>drake</code> pipeline.</p>
+</div>
+<div id="hold-out-sampling-can-fail-in-small-groups" class="section level2" number="8.8">
+<h2>
+<span class="header-section-number">8.8</span> Hold-out sampling can fail in small groups<a class="anchor" aria-label="anchor" href="#hold-out-sampling-can-fail-in-small-groups"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Williams script samples five non-outlier samples per group:</p>
+<pre class="text"><code>scripts/Williams_analysis.R:230</code></pre>
+<p>If a group has fewer than five available samples, this fails. Safer code:</p>
+<div class="sourceCode" id="cb90"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outliers_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outside</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Case_Cont</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="detection-p-value-thresholds-should-be-documented" class="section level2" number="8.9">
+<h2>
+<span class="header-section-number">8.9</span> Detection P-value thresholds should be documented<a class="anchor" aria-label="anchor" href="#detection-p-value-thresholds-should-be-documented"><i class="fas fa-link"></i></a>
+</h2>
+<p>The helper and Williams script keep samples with mean detection P-value below 0.05:</p>
+<pre class="text"><code>scripts/functions_TutorialEpis.R:24-25
+scripts/Williams_analysis.R:60-61</code></pre>
+<p>This is a reasonable coarse filter, but community readers will ask whether sample failure was defined by mean detection P-value, fraction of failed probes, or another QC metric. The tutorial now describes the rule, but a methods section should state it explicitly.</p>
+</div>
+<div id="external-prediction-requires-the-full-model-cpg-set" class="section level2" number="8.10">
+<h2>
+<span class="header-section-number">8.10</span> External prediction requires the full model CpG set<a class="anchor" aria-label="anchor" href="#external-prediction-requires-the-full-model-cpg-set"><i class="fas fa-link"></i></a>
+</h2>
+<p>When scoring external data with <code>caret</code>, the new data must contain every predictor used during training. Intersecting CpGs across datasets is useful for visualization, but it is not enough for prediction if the intersection drops model CpGs.</p>
+<p>Recommended guard:</p>
+<div class="sourceCode" id="cb92"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">model_cpgs</span> <span class="op">&lt;-</span> <span class="fu">model_predictor_names</span><span class="op">(</span><span class="va">model</span><span class="op">)</span></span>
+<span><span class="va">missing</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html">setdiff</a></span><span class="op">(</span><span class="va">model_cpgs</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset_external</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">missing</span><span class="op">)</span> <span class="op">&gt;</span> <span class="fl">0</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="kw"><a href="https://rdrr.io/r/base/stop.html">stop</a></span><span class="op">(</span><span class="st">"External data are missing model CpGs. Retrain on common CpGs or define imputation."</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
+<p>The helper <code>predict_model_on_grset()</code> already includes this guard.</p>
+</div>
+<div id="reproducibility-set-seeds-around-sampling-and-model-training" class="section level2" number="8.11">
+<h2>
+<span class="header-section-number">8.11</span> Reproducibility: set seeds around sampling and model training<a class="anchor" aria-label="anchor" href="#reproducibility-set-seeds-around-sampling-and-model-training"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Williams script samples validation hold-outs and trains repeated cross-validation models. Set seeds before both:</p>
+<div class="sourceCode" id="cb93"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="co"># hold-out sampling</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="co"># caret training</span></span></code></pre></div>
+<p>For exact reproducibility across parallel backends, consider using <code>trainControl(seeds = ...)</code>.</p>
+</div>
+<div id="path-portability" class="section level2" number="8.12">
+<h2>
+<span class="header-section-number">8.12</span> Path portability<a class="anchor" aria-label="anchor" href="#path-portability"><i class="fas fa-link"></i></a>
+</h2>
+<p>Most original scripts use absolute <code>/PROJECTES/...</code> paths. That is fine on the HPC filesystem, but not for a public tutorial. The new bookdown uses <code>params$project_root</code> and <code><a href="https://rdrr.io/r/base/file.path.html">file.path()</a></code> throughout so readers can adapt paths without search-and-replace.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="new-cases.html"><span class="header-section-number">7</span> Developing and Testing New Cases</a></div>
+<div class="next"><a href="render-share.html"><span class="header-section-number">9</span> Rendering and Sharing</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#known-issues"><span class="header-section-number">8</span> Review Notes and Things to Correct</a></li>
+<li><a class="nav-link" href="#hidden-path_save-dependency-in-the-original-helper"><span class="header-section-number">8.1</span> Hidden path_save dependency in the original helper</a></li>
+<li><a class="nav-link" href="#kabuki-deviation-typo-sd-should-be-sd_beta"><span class="header-section-number">8.2</span> Kabuki deviation typo: sd should be sd_beta</a></li>
+<li><a class="nav-link" href="#knn-training-reads-a-missing-diagnosis-column"><span class="header-section-number">8.3</span> KNN training reads a missing Diagnosis column</a></li>
+<li><a class="nav-link" href="#comment-mismatch-in-williams-cpg-selection"><span class="header-section-number">8.4</span> Comment mismatch in Williams CpG selection</a></li>
+<li><a class="nav-link" href="#svm-grid-comment-mentions-sigma-but-the-model-is-linear"><span class="header-section-number">8.5</span> SVM grid comment mentions sigma, but the model is linear</a></li>
+<li><a class="nav-link" href="#heatmap-helper-has-hard-coded-temp-paths-and-a-fragile-regex"><span class="header-section-number">8.6</span> Heatmap helper has hard-coded temp paths and a fragile regex</a></li>
+<li><a class="nav-link" href="#scripts-are-not-clean-first-run-pipelines"><span class="header-section-number">8.7</span> Scripts are not clean first-run pipelines</a></li>
+<li><a class="nav-link" href="#hold-out-sampling-can-fail-in-small-groups"><span class="header-section-number">8.8</span> Hold-out sampling can fail in small groups</a></li>
+<li><a class="nav-link" href="#detection-p-value-thresholds-should-be-documented"><span class="header-section-number">8.9</span> Detection P-value thresholds should be documented</a></li>
+<li><a class="nav-link" href="#external-prediction-requires-the-full-model-cpg-set"><span class="header-section-number">8.10</span> External prediction requires the full model CpG set</a></li>
+<li><a class="nav-link" href="#reproducibility-set-seeds-around-sampling-and-model-training"><span class="header-section-number">8.11</span> Reproducibility: set seeds around sampling and model training</a></li>
+<li><a class="nav-link" href="#path-portability"><span class="header-section-number">8.12</span> Path portability</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Episignatures Detection: A Practical Tutorial</strong>: From methylation arrays to CpG panels, classifiers, and external validation" was written by Albert Alegret-García, Alejandro Cáceres, Luís A. Pérez-Jurado, Juan R. González | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal. It was last built on 2026-06-22.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>

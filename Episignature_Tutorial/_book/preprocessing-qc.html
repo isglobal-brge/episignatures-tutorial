@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Chapter 4 Preprocessing and Quality Control | Episignatures Detection: A Practical Tutorial</title>
+<meta name="author" content="Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal">
+<meta name="generator" content="bookdown 0.47 with bs4_book()">
+<meta property="og:title" content="Chapter 4 Preprocessing and Quality Control | Episignatures Detection: A Practical Tutorial">
+<meta property="og:type" content="book">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Chapter 4 Preprocessing and Quality Control | Episignatures Detection: A Practical Tutorial">
+<!-- JS --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://kit.fontawesome.com/6ecbd6c532.js" crossorigin="anonymous"></script><script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="libs/bootstrap-4.6.0/bootstrap.min.css" rel="stylesheet">
+<script src="libs/bootstrap-4.6.0/bootstrap.bundle.min.js"></script><script src="libs/bs3compat-0.6.1/transition.js"></script><script src="libs/bs3compat-0.6.1/tabs.js"></script><script src="libs/bs3compat-0.6.1/bs3compat.js"></script><link href="libs/bs4_book-1.0.0/bs4_book.css" rel="stylesheet">
+<script src="libs/bs4_book-1.0.0/bs4_book.js"></script><meta name="theme-color" content="#0f766e">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script defer src="assets/theme-toggle.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- CSS --><style type="text/css">
+    
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  </style>
+<style type="text/css">
+    /* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+    div.csl-bib-body { }
+    div.csl-entry {
+      clear: both;
+        }
+    .hanging div.csl-entry {
+      margin-left:2em;
+      text-indent:-2em;
+    }
+    div.csl-left-margin {
+      min-width:2em;
+      float:left;
+    }
+    div.csl-right-inline {
+      margin-left:2em;
+      padding-left:1em;
+    }
+    div.csl-indent {
+      margin-left: 2em;
+    }
+  </style>
+<link rel="stylesheet" href="assets/book-style.css">
+<meta name="description" content="This chapter explains the main preprocessing and quality-control steps used for the Williams and Kabuki methylation-array datasets. The goal is to show what each check is doing before the data are...">
+<meta property="og:description" content="This chapter explains the main preprocessing and quality-control steps used for the Williams and Kabuki methylation-array datasets. The goal is to show what each check is doing before the data are...">
+<meta name="twitter:description" content="This chapter explains the main preprocessing and quality-control steps used for the Williams and Kabuki methylation-array datasets. The goal is to show what each check is doing before the data are...">
+</head>
+<body data-spy="scroll" data-target="#toc">
+
+<div class="container-fluid">
+<div class="row">
+  <header class="col-sm-12 col-lg-3 sidebar sidebar-book"><a class="sr-only sr-only-focusable" href="#content">Skip to main content</a>
+
+    <div class="d-flex align-items-start justify-content-between">
+      <h1>
+        <a href="index.html" title="From methylation arrays to CpG panels, classifiers, and external validation">Episignatures Detection: A Practical Tutorial</a>:
+        <small class="text-muted">From methylation arrays to CpG panels, classifiers, and external validation</small>
+      </h1>
+      <button class="btn btn-outline-primary d-lg-none ml-2 mt-1" type="button" data-toggle="collapse" data-target="#main-nav" aria-expanded="true" aria-controls="main-nav"><i class="fas fa-bars"></i><span class="sr-only">Show table of contents</span></button>
+    </div>
+
+    <div id="main-nav" class="collapse-lg">
+      <form role="search">
+        <input id="search" class="form-control" type="search" placeholder="Search" aria-label="Search">
+</form>
+
+      <nav aria-label="Table of contents"><h2>Table of contents</h2>
+        <ul class="book-toc list-unstyled">
+<li><a class="" href="index.html">Preface</a></li>
+<li><a class="" href="primer.html"><span class="header-section-number">1</span> Primer for New Readers</a></li>
+<li><a class="" href="repo-map.html"><span class="header-section-number">2</span> Repository Map</a></li>
+<li><a class="" href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></li>
+<li><a class="active" href="preprocessing-qc.html"><span class="header-section-number">4</span> Preprocessing and Quality Control</a></li>
+<li><a class="" href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></li>
+<li><a class="" href="kabuki.html"><span class="header-section-number">6</span> Kabuki Workflow</a></li>
+<li><a class="" href="wrapper-functions.html"><span class="header-section-number">7</span> Wrapper functions</a></li>
+<li><a class="" href="references.html">Reference list</a></li>
+</ul>
+
+        <div class="book-extra">
+          
+        </div>
+      </nav>
+</div>
+  </header><main class="col-sm-12 col-md-9 col-lg-7" id="content"><div id="preprocessing-qc" class="section level1" number="4">
+<h1>
+<span class="header-section-number">4</span> Preprocessing and Quality Control<a class="anchor" aria-label="anchor" href="#preprocessing-qc"><i class="fas fa-link"></i></a>
+</h1>
+<p>This chapter explains the main preprocessing and quality-control steps used for the Williams and Kabuki methylation-array datasets. The goal is to show what each check is doing before the data are used for DMP discovery or classification.</p>
+<div id="raw-object-rgchannelset" class="section level2" number="4.1">
+<h2>
+<span class="header-section-number">4.1</span> Raw object: <code>RGChannelSet</code><a class="anchor" aria-label="anchor" href="#raw-object-rgchannelset"><i class="fas fa-link"></i></a>
+</h2>
+<p>IDATs are first read into an <code>RGChannelSet</code>, which stores the raw red and green channel intensities before normalization <span class="citation">(<a href="references.html#ref-aryee2014minfi">Aryee et al. 2014</a>)</span>. In a laboratory workflow, a sample sheet can provide sample identifiers and array positions. For these public GEO examples, the script extracts the GEO accession, slide, and array position from the IDAT filenames instead.</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">RGset</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/read.metharray.exp.html">read.metharray.exp</a></span><span class="op">(</span>base <span class="op">=</span> <span class="va">path_idat</span><span class="op">)</span></span>
+<span><span class="va">RGset</span></span></code></pre></div>
+<p>The IDAT filename downloaded from GEO starts with the GSM accession, followed by slide and array position. In many local laboratory datasets, filenames contain only the slide and array position:</p>
+<pre class="text"><code># GEO
+GSM3383551_9379086005_R01C01_Grn.idat
+
+# In-house arrays.
+9379086005_R01C01_Grn.idat</code></pre>
+</div>
+<div id="sample-detection-p-value-filter" class="section level2" number="4.2">
+<h2>
+<span class="header-section-number">4.2</span> Sample detection P-value filter<a class="anchor" aria-label="anchor" href="#sample-detection-p-value-filter"><i class="fas fa-link"></i></a>
+</h2>
+<p>Detection P-values measure whether probe signal can be distinguished from background. In this repository, the first coarse sample-level filter calculates the <strong>mean</strong> detection P-value across probes for each sample and keeps samples with a mean below 0.05.</p>
+<p>This is the rule implemented by these scripts; it is not a universal methylation-array QC threshold. Other workflows may use the fraction of failed probes or additional intensity-based metrics, so the exact rule should be reported when results are published.</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">detP</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/detectionP.html">detectionP</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span></span>
+<span><span class="va">sample_detP</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">colMeans</a></span><span class="op">(</span><span class="va">detP</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="va">sample_detP</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">RGset</span> <span class="op">&lt;-</span> <span class="va">RGset</span><span class="op">[</span>, <span class="va">sample_detP</span> <span class="op">&lt;</span> <span class="fl">0.05</span><span class="op">]</span></span></code></pre></div>
+<p>This is only the first sample-level check. Metadata matching, sex prediction, and PCA are reviewed later before samples are used for discovery or training.</p>
+</div>
+<div id="attach-phenotype-metadata" class="section level2" number="4.3">
+<h2>
+<span class="header-section-number">4.3</span> Attach phenotype metadata<a class="anchor" aria-label="anchor" href="#attach-phenotype-metadata"><i class="fas fa-link"></i></a>
+</h2>
+<p>Because these examples are read without a sample sheet, the phenotype table is attached after the IDATs are loaded. The GSM accession is extracted from the filename and used as the key that links each array to its metadata.</p>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pheno</span> <span class="op">&lt;-</span> <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"pheno_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  show_col_types <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  geo_accession <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"_.*"</span>, <span class="st">""</span>, <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  idat_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">colnames</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span>,</span>
+<span>  stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">pheno</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+<p>A simple check confirms that all loaded samples received a case/control label:</p>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/stopifnot.html">stopifnot</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/any.html">any</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">$</span><span class="va">Case_Cont</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">$</span><span class="va">Case_Cont</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="sex-prediction" class="section level2" number="4.4">
+<h2>
+<span class="header-section-number">4.4</span> Sex prediction<a class="anchor" aria-label="anchor" href="#sex-prediction"><i class="fas fa-link"></i></a>
+</h2>
+<p>Sex prediction provides an additional sample-level QC check. A disagreement between reported and methylation-predicted sex can indicate a sample-label problem, a metadata error, or another issue that deserves review. A discordant result is therefore a flag to investigate, not an automatic reason to discard the sample.</p>
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">MSet</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/preprocessNoob.html">preprocessNoob</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span></span>
+<span><span class="va">MSet</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/mapToGenome-methods.html">mapToGenome</a></span><span class="op">(</span><span class="va">MSet</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">predSex</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/getSex.html">getSex</a></span><span class="op">(</span><span class="va">MSet</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    predSex <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="va">predictedSex</span> <span class="op">==</span> <span class="st">"M"</span> <span class="op">~</span> <span class="st">"Male"</span>,</span>
+<span>      <span class="va">predictedSex</span> <span class="op">==</span> <span class="st">"F"</span> <span class="op">~</span> <span class="st">"Female"</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="cn">NA_character_</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">geo_accession</span>, <span class="va">predSex</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="va">predSex</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    Concordant_Sex <span class="op">=</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/case_when.html">case_when</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">Sex</span><span class="op">)</span> <span class="op">~</span> <span class="cn">NA_character_</span>,</span>
+<span>      <span class="va">Sex</span> <span class="op">==</span> <span class="va">predSex</span> <span class="op">~</span> <span class="st">"Concordant"</span>,</span>
+<span>      <span class="cn">TRUE</span> <span class="op">~</span> <span class="st">"Discordant"</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">column_to_rownames</a></span><span class="op">(</span><span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">S4Vectors</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/S4Vectors/man/DataFrame-class.html">DataFrame</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="st">"Reported"</span> <span class="op">=</span> <span class="va">RGset</span><span class="op">$</span><span class="va">Sex</span>, <span class="st">"Predicted"</span> <span class="op">=</span> <span class="va">RGset</span><span class="op">$</span><span class="va">predSex</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="va">RGset</span><span class="op">$</span><span class="va">Concordant_Sex</span>, useNA <span class="op">=</span> <span class="st">"ifany"</span><span class="op">)</span></span></code></pre></div>
+<p>When reported sex is unavailable, concordance cannot be checked. The predicted value can still be stored for plotting or, if scientifically justified, used as a covariate in later analyses.</p>
+</div>
+<div id="normalization" class="section level2" number="4.5">
+<h2>
+<span class="header-section-number">4.5</span> Normalization<a class="anchor" aria-label="anchor" href="#normalization"><i class="fas fa-link"></i></a>
+</h2>
+<p>The Williams discovery workflow uses functional normalization, a method developed for Illumina methylation arrays <span class="citation">(<a href="references.html#ref-fortin2014funnorm">Fortin et al. 2014</a>)</span>:</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/preprocessFunnorm.html">preprocessFunnorm</a></span><span class="op">(</span><span class="va">RGset</span>, sex <span class="op">=</span> <span class="va">RGset</span><span class="op">$</span><span class="va">Sex</span><span class="op">)</span></span></code></pre></div>
+<p>The Kabuki datasets are not all processed in exactly the same way:</p>
+<ul>
+<li>
+<code>GSE97362</code> and <code>GSE218186</code> use <code>process_meth = "funnorm"</code>.</li>
+<li>
+<code>GSE116300</code> uses <code>process_meth = "quantile"</code> and is also compared with the processed beta-values distributed through GEO.</li>
+</ul>
+<p>This difference is important rather than incidental. Preprocessing can shift methylation distributions, so a model should not be assumed to transfer unchanged across preprocessing methods or platforms. In this tutorial, these differences are kept visible because the Kabuki analysis explicitly tests robustness across independent datasets and technologies.</p>
+</div>
+<div id="probe-filters" class="section level2" number="4.6">
+<h2>
+<span class="header-section-number">4.6</span> Probe filters<a class="anchor" aria-label="anchor" href="#probe-filters"><i class="fas fa-link"></i></a>
+</h2>
+<p>After normalization, the scripts apply three probe-level filters:</p>
+<ol style="list-style-type: decimal">
+<li>remove probes overlapping common SNPs with <code>dropLociWithSnps(maf = 0.01)</code>;</li>
+<li>remove known cross-reactive probes with <code><a href="https://rdrr.io/pkg/maxprobes/man/dropXreactiveLoci.html">maxprobes::dropXreactiveLoci()</a></code>;</li>
+<li>keep only probes with detection P-value below 0.01 in every sample for the strict version of the workflow.</li>
+</ol>
+<p>These filters reduce measurements that are more likely to be unreliable or difficult to interpret.</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/getAnnotation.html">dropLociWithSnps</a></span><span class="op">(</span><span class="va">GRset</span>, maf <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span>
+<span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">maxprobes</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/maxprobes/man/dropXreactiveLoci.html">dropXreactiveLoci</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">detP</span> <span class="op">&lt;-</span> <span class="va">detP</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span>, <span class="va">GRset</span><span class="op">$</span><span class="va">idat_name</span>, drop <span class="op">=</span> <span class="cn">FALSE</span><span class="op">]</span></span>
+<span><span class="va">keep</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html">rowSums</a></span><span class="op">(</span><span class="va">detP</span> <span class="op">&lt;</span> <span class="fl">0.01</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/nrow.html">ncol</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/table.html">table</a></span><span class="op">(</span><span class="st">"CpGs kept"</span> <span class="op">=</span> <span class="va">keep</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="va">GRset</span><span class="op">[</span><span class="va">keep</span>, <span class="op">]</span></span>
+<span><span class="va">GRset</span><span class="op">$</span><span class="va">Dataset</span> <span class="op">&lt;-</span> <span class="va">geo_ID</span></span></code></pre></div>
+<p>Requiring detection in every sample is conservative. It minimizes missing values but can remove many CpGs as cohort size grows. The tutorial helper can instead use a 95% detected-sample rule when a small amount of missingness is acceptable. Whichever rule is used should be fixed before downstream analysis and reported clearly.</p>
+</div>
+<div id="wrapper-function" class="section level2" number="4.7">
+<h2>
+<span class="header-section-number">4.7</span> Wrapper function<a class="anchor" aria-label="anchor" href="#wrapper-function"><i class="fas fa-link"></i></a>
+</h2>
+<p>For a new dataset, the wrapper collects these preprocessing choices in one function and returns a normalized <code>GenomicRatioSet</code> for downstream analysis. This makes it easier to see which settings were used for each cohort.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset</span> <span class="op">&lt;-</span> <span class="fu">read_idat_minfi</span><span class="op">(</span></span>
+<span>  path_idat <span class="op">=</span> <span class="va">path_idat</span>,</span>
+<span>  pheno <span class="op">=</span> <span class="va">pheno</span>,</span>
+<span>  path_save <span class="op">=</span> <span class="va">path_save</span>,</span>
+<span>  estimate_cell_counts <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  dataset_name <span class="op">=</span> <span class="va">geo_ID</span>,</span>
+<span>  process_meth <span class="op">=</span> <span class="st">"funnorm"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">plot_custom_theme</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html">theme_classic</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/theme.html">theme</a></span><span class="op">(</span></span>
+<span>      legend.position <span class="op">=</span> <span class="st">"right"</span>,</span>
+<span>      axis.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">13</span><span class="op">)</span>,</span>
+<span>      axis.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">15</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>      legend.text <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">10</span><span class="op">)</span>,</span>
+<span>      legend.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">12</span>, face <span class="op">=</span> <span class="st">"bold"</span><span class="op">)</span>,</span>
+<span>      plot.title <span class="op">=</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/element.html">element_text</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fl">17</span>, face <span class="op">=</span> <span class="st">"bold"</span>, hjust <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/readRDS.html">saveRDS</a></span><span class="op">(</span><span class="va">GRset</span>, <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"GRset_"</span>, <span class="va">geo_ID</span>, <span class="st">".rds"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="cell-composition" class="section level2" number="4.8">
+<h2>
+<span class="header-section-number">4.8</span> Cell composition<a class="anchor" aria-label="anchor" href="#cell-composition"><i class="fas fa-link"></i></a>
+</h2>
+<p>Whole-blood DNA contains a mixture of leukocyte populations, and each cell type has a characteristic methylation profile. Differences in cell composition between cases and controls can therefore create apparent methylation differences that are not directly related to the disorder.</p>
+<p>The tutorial uses <code>FlowSorted.Blood.EPIC</code> to estimate major immune-cell fractions from the raw <code>RGChannelSet</code> <span class="citation">(<a href="references.html#ref-salas2018blood">Salas et al. 2018</a>)</span>. These estimates are later included as covariates in the Williams differential methylation model. Cell deconvolution is one way to reduce confounding; it does not make the samples biologically identical.</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">RGset</span> <span class="op">&lt;-</span> <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/read.metharray.exp.html">read.metharray.exp</a></span><span class="op">(</span>base <span class="op">=</span> <span class="va">path_idat</span><span class="op">)</span> <span class="co"># Reads the IDATs.</span></span>
+<span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/immunomethylomics/FlowSorted.Blood.EPIC">FlowSorted.Blood.EPIC</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">cell_estimates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/FlowSorted.Blood.EPIC/man/estimateCellCounts2.html">estimateCellCounts2</a></span><span class="op">(</span></span>
+<span>  <span class="va">RGset</span>, compositeCellType <span class="op">=</span> <span class="st">"Blood"</span>,</span>
+<span>  processMethod <span class="op">=</span> <span class="st">"preprocessNoob"</span>,</span>
+<span>  probeSelect <span class="op">=</span> <span class="st">"IDOL"</span>,</span>
+<span>  cellTypes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"CD8T"</span>, <span class="st">"CD4T"</span>, <span class="st">"NK"</span>,</span>
+<span>                <span class="st">"Bcell"</span>,<span class="st">"Mono"</span>, <span class="st">"Neu"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">cell_estimates</span><span class="op">$</span><span class="va">prop</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span>var <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span></span>
+<span>    <span class="st">"geo_accession"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">sub</a></span><span class="op">(</span><span class="st">"_.*"</span>, <span class="st">""</span>, <span class="va">geo_accession</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">readr</span><span class="fu">::</span><span class="fu"><a href="https://readr.tidyverse.org/reference/write_delim.html">write_csv</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables/CellCounts_"</span>, <span class="va">geo_ID</span>, <span class="st">".csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="pca-for-batch-effects" class="section level2" number="4.9">
+<h2>
+<span class="header-section-number">4.9</span> PCA for batch effects<a class="anchor" aria-label="anchor" href="#pca-for-batch-effects"><i class="fas fa-link"></i></a>
+</h2>
+<p>Before testing for differential methylation, the workflow uses PCA to inspect the largest sources of variation. For this QC view, variability is calculated from the 10,000 most variable autosomal CpGs among controls, and the resulting PCA is then inspected against slide, array position, sex, and case/control status. The purpose is to identify possible technical structure or unusual samples before feature discovery.</p>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">GRset</span><span class="op">$</span><span class="va">Slide</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">$</span><span class="va">idat_name</span>, <span class="st">"_"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_chr</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.x</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">GRset</span><span class="op">$</span><span class="va">Array</span> <span class="op">&lt;-</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_split.html">str_split</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">$</span><span class="va">idat_name</span>, <span class="st">"_"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html">map_chr</a></span><span class="op">(</span><span class="op">~</span> <span class="va">.x</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">annots</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/exists.html">exists</a></span><span class="op">(</span><span class="st">"array_annots"</span>, mode <span class="op">=</span> <span class="st">"function"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">array_annots</span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span></span>
+<span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
+<span>  <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/getAnnotation.html">getAnnotation</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">annots</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/row_colnames.html">rownames</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="va">GRset_noXY</span> <span class="op">&lt;-</span> <span class="va">GRset</span><span class="op">[</span><span class="op">!</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">rowData</a></span><span class="op">(</span><span class="va">GRset</span><span class="op">)</span><span class="op">$</span><span class="va">chr</span> <span class="op"><a href="https://rdrr.io/pkg/BiocGenerics/man/match.html">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"chrX"</span>, <span class="st">"chrY"</span><span class="op">)</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="va">variance_m</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span></span>
+<span>  <span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/MethylSet-class.html">getM</a></span><span class="op">(</span><span class="va">GRset_noXY</span><span class="op">[</span>, <span class="va">GRset_noXY</span><span class="op">$</span><span class="va">Case_Cont</span> <span class="op">==</span> <span class="st">"Control"</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>  <span class="fl">1</span>,</span>
+<span>  <span class="fu">stats</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/r/stats/cor.html">var</a></span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">top_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/sort.html">sort</a></span><span class="op">(</span><span class="va">variance_m</span>, decreasing <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">10000</span><span class="op">]</span></span>
+<span></span>
+<span><span class="va">pca_res</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/prcomp.html">prcomp</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/t.html">t</a></span><span class="op">(</span><span class="fu">minfi</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/minfi/man/MethylSet-class.html">getBeta</a></span><span class="op">(</span><span class="va">GRset_noXY</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">top_var</span><span class="op">)</span>, <span class="op">]</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  scale. <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">var_explained</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="fl">100</span> <span class="op">*</span> <span class="va">pca_res</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">$</span><span class="va">sdev</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span>, <span class="fl">2</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">pca_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">pca_res</span><span class="op">$</span><span class="va">x</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">PC1</span>, <span class="va">PC2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/rownames.html">rownames_to_column</a></span><span class="op">(</span><span class="st">"geo_accession"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate-joins.html">left_join</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="fu">SummarizedExperiment</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/SummarizedExperiment/man/SummarizedExperiment-class.html">colData</a></span><span class="op">(</span><span class="va">GRset_noXY</span><span class="op">)</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"geo_accession"</span><span class="op">)</span></span></code></pre></div>
+<p>The same PCA coordinates can then be coloured by slide, array, and case/control status to see whether one of these variables dominates the first principal components:</p>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">pca_panels</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/lapply.html">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Slide"</span>, <span class="st">"Array"</span>, <span class="st">"Case_Cont"</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">col_var</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="va">pca_df</span>, <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span><span class="va">PC1</span>, <span class="va">PC2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/stat_ellipse.html">stat_ellipse</a></span><span class="op">(</span></span>
+<span>      <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">col_var</span><span class="op">]</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>      level <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>      show.legend <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>    <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html">geom_point</a></span><span class="op">(</span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>color <span class="op">=</span> <span class="va">.data</span><span class="op">[[</span><span class="va">col_var</span><span class="op">]</span><span class="op">]</span>, shape <span class="op">=</span> <span class="va">Sex</span><span class="op">)</span>, size <span class="op">=</span> <span class="fl">2.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span></span>
+<span>      title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/BiocGenerics/man/paste.html">paste</a></span><span class="op">(</span><span class="st">"PCA plot -"</span>, <span class="va">col_var</span><span class="op">)</span>,</span>
+<span>      x <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC1 ("</span>, <span class="va">var_explained</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"% var)"</span><span class="op">)</span>,</span>
+<span>      y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PC2 ("</span>, <span class="va">var_explained</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">"% var)"</span><span class="op">)</span></span>
+<span>    <span class="op">)</span> <span class="op">+</span></span>
+<span>    <span class="fu">plot_custom_theme</span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">ggplot2</span><span class="fu">::</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggsave.html">ggsave</a></span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_figures</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PCA_"</span>, <span class="va">geo_ID</span>, <span class="st">".png"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  <span class="fu">ggpubr</span><span class="fu">::</span><span class="fu"><a href="https://rpkgs.datanovia.com/ggpubr/reference/ggarrange.html">ggarrange</a></span><span class="op">(</span>plotlist <span class="op">=</span> <span class="va">pca_panels</span>, ncol <span class="op">=</span> <span class="fl">3</span><span class="op">)</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">13</span>,</span>
+<span>  height <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  bg <span class="op">=</span> <span class="st">"white"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
+</div>
+<div id="pca-outliers-and-held-out-validation" class="section level2" number="4.10">
+<h2>
+<span class="header-section-number">4.10</span> PCA outliers and held-out validation<a class="anchor" aria-label="anchor" href="#pca-outliers-and-held-out-validation"><i class="fas fa-link"></i></a>
+</h2>
+<p>For the Williams example, the script uses the PC1/PC2 coordinates to flag samples outside the group-specific PCA distribution and also reserves five non-outlier samples per case/control group as hold-outs. Together, the reviewed outliers and the random hold-outs form the within-dataset validation set used later in the tutorial.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">outliers_df</span> <span class="op">&lt;-</span> <span class="fu">detect_pca_outliers</span><span class="op">(</span><span class="va">pca_df</span>, return_all <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">outliers_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="va">outside</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">D2</span>, <span class="va">outside</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"PCA_outliers_"</span>, <span class="va">geo_ID</span>, <span class="st">".xlsx"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    rowNames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">outliers_df</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="va">outside</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span><span class="op">(</span><span class="va">Case_Cont</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/slice.html">slice_sample</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="fl">5</span>, <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/context.html">n</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">geo_accession</span>, <span class="va">Case_Cont</span>, <span class="va">D2</span>, <span class="va">outside</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">openxlsx</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/openxlsx/man/write.xlsx.html">write.xlsx</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">path_save</span>, <span class="st">"Tables"</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span><span class="op">(</span><span class="st">"KeepOut_Validation_"</span>, <span class="va">geo_ID</span>, <span class="st">".xlsx"</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    rowNames <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
+<p>PCA outlier flags are prompts for review, not automatic exclusion rules. Before removing a sample, check its phenotype, array position, signal quality, sex prediction, and any other available technical information. This is especially important in rare-disease cohorts, where a biologically unusual patient may also be scientifically informative.</p>
+
+</div>
+</div>
+  <div class="chapter-nav">
+<div class="prev"><a href="setup-data.html"><span class="header-section-number">3</span> Setup and Data Organization</a></div>
+<div class="next"><a href="williams.html"><span class="header-section-number">5</span> Williams Syndrome Workflow</a></div>
+</div></main><div class="col-md-3 col-lg-2 d-none d-md-block sidebar sidebar-chapter">
+    <nav id="toc" data-toggle="toc" aria-label="On this page"><h2>On this page</h2>
+      <ul class="nav navbar-nav">
+<li><a class="nav-link" href="#preprocessing-qc"><span class="header-section-number">4</span> Preprocessing and Quality Control</a></li>
+<li><a class="nav-link" href="#raw-object-rgchannelset"><span class="header-section-number">4.1</span> Raw object: RGChannelSet</a></li>
+<li><a class="nav-link" href="#sample-detection-p-value-filter"><span class="header-section-number">4.2</span> Sample detection P-value filter</a></li>
+<li><a class="nav-link" href="#attach-phenotype-metadata"><span class="header-section-number">4.3</span> Attach phenotype metadata</a></li>
+<li><a class="nav-link" href="#sex-prediction"><span class="header-section-number">4.4</span> Sex prediction</a></li>
+<li><a class="nav-link" href="#normalization"><span class="header-section-number">4.5</span> Normalization</a></li>
+<li><a class="nav-link" href="#probe-filters"><span class="header-section-number">4.6</span> Probe filters</a></li>
+<li><a class="nav-link" href="#wrapper-function"><span class="header-section-number">4.7</span> Wrapper function</a></li>
+<li><a class="nav-link" href="#cell-composition"><span class="header-section-number">4.8</span> Cell composition</a></li>
+<li><a class="nav-link" href="#pca-for-batch-effects"><span class="header-section-number">4.9</span> PCA for batch effects</a></li>
+<li><a class="nav-link" href="#pca-outliers-and-held-out-validation"><span class="header-section-number">4.10</span> PCA outliers and held-out validation</a></li>
+</ul>
+
+      <div class="book-extra">
+        <ul class="list-unstyled">
+          
+        </ul>
+</div>
+    </nav>
+</div>
+
+</div>
+</div> <!-- .container -->
+
+<footer class="bg-primary text-light mt-5"><div class="container"><div class="row">
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>"<strong>Episignatures Detection: A Practical Tutorial</strong>: From methylation arrays to CpG panels, classifiers, and external validation" was written by Albert Alegret-Garcia, Alejandro Caceres, Luis A. Perez-Jurado, Juan R. Gonzalez | Bioinformatics Research Group in Genetic Epidemiology, ISGlobal. It was last built on 2026-08-19.</p>
+  </div>
+
+  <div class="col-12 col-md-6 mt-3">
+    <p>This book was built by the <a class="text-light" href="https://bookdown.org">bookdown</a> R package.</p>
+  </div>
+
+</div></div>
+</footer>
+</body>
+</html>
